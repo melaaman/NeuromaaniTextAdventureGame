@@ -1,0 +1,5 @@
+﻿Voit vaihtaa sijaintia liiku-käskyllä kuten "liiku [ilmansuunta]".
+Jos kohtaat muita olentoja, voit puhua heille sano-käskyllä. Voit esimerkiksi tervehtiä 
+käskyllä "sano hei".
+Jos löydät matkan varrelta tavaran, voit poimia sen reppuusi ota-käskyllä: "ota [tavara]".
+Sinulla on myös käytössäsi seuraavat erikoiskäskyt: lyö.
