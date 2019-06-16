@@ -49,9 +49,10 @@
     <Compile Include="Game\Game.cs" />
     <Compile Include="Game\GeneralUtils.cs" />
     <Compile Include="Game\Intro.cs" />
-    <Compile Include="Game\PlayLocation.cs" />
+    <Compile Include="Rooms\BedRoom.cs" />
+    <Compile Include="Rooms\PlayRoom.cs" />
     <Compile Include="Game\UserInput.cs" />
-    <Compile Include="Locations\Location.cs" />
+    <Compile Include="Rooms\Location.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -59,6 +60,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Files\bedroom.txt" />
     <Content Include="Files\intro.txt" />
     <Content Include="Files\ohjeita.txt" />
     <Content Include="Files\start.txt" />

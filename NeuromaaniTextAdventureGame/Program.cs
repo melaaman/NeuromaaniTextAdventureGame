@@ -1,10 +1,5 @@
-using NeuromaaniTextAdventureGame.FileManager;
+
 using NeuromaaniTextAdventureGame.Game;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NeuromaaniTextAdventureGame
 {
@@ -12,7 +7,9 @@ namespace NeuromaaniTextAdventureGame
     {
         static void Main(string[] args)
         {
+            PlayGame _game = new PlayGame();
             Intro.DisplayIntro();
+            _game.Game();
 
             //FileReader reader = new FileReader();
             //UserInput userInput = new UserInput();

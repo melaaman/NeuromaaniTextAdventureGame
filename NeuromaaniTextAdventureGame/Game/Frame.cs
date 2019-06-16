@@ -43,18 +43,6 @@ namespace NeuromaaniTextAdventureGame.Game
             Console.WriteLine("  ============================================================================================");
             Console.ResetColor();
 
-            // screeni
-
-            for (int i = 4; i <= 24; i++)
-            {
-                Console.SetCursorPosition(1, i);
-                Console.Write("|");
-                Console.SetCursorPosition(94, i);
-                Console.Write("|");
-            }
-            Console.SetCursorPosition(0, 25);
-            Console.WriteLine("  _________________________________________________________________________________________");
-
         }
     }
 }

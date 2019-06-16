@@ -9,12 +9,12 @@ namespace NeuromaaniTextAdventureGame.Game
         static FileReader _reader = new FileReader();
         public static void DisplayIntro()
         {
-            DisplayTitleText();
-            DisplayIntroText();
-            _reader.DisplayTextFromFile("intro.txt", 0, 1);
-            _reader.DisplayTextFromFile("intro.txt", 1, 23);
-            GeneralUtils.PlayEnter(_reader.GetPositionTop());
-            AskPlayerName();
+            //DisplayTitleText();
+            //DisplayIntroText();
+            //_reader.DisplayTextFromFile("intro.txt", 0, 1);
+            //_reader.DisplayTextFromFile("intro.txt", 1, 23);
+            //GeneralUtils.PlayEnter(26);
+            //AskPlayerName();
             GiveInstructions();
             StartGame();
         }
@@ -100,7 +100,7 @@ namespace NeuromaaniTextAdventureGame.Game
             Console.WriteLine("Mutta Gereg ei saa yksin mitään aikaan, siksi sinä, {0}, olet tässä. ", Frame.PlayerName);
             _reader.DisplayTextFromFile("start.txt", 2, 10);
             _reader.DisplayTextFromFile("start.txt", 3, 15);
-            Console.SetCursorPosition(4, _reader.GetPositionTop());
+            Console.SetCursorPosition(4, 18);
         }
         static void StartGame()
         {
@@ -115,10 +115,10 @@ namespace NeuromaaniTextAdventureGame.Game
 
             while (true)
             {
-                Console.SetCursorPosition(4, _reader.GetPositionTop() + 2);
+                Console.SetCursorPosition(4, 20);
                 if (Console.ReadLine().ToLower().Trim() == "aloita") return;
                 GiveInstructions();
-                Console.SetCursorPosition(4, _reader.GetPositionTop());
+                Console.SetCursorPosition(4, 18);
                 Console.WriteLine("Anna käsky \"Aloita\"");
 
             }

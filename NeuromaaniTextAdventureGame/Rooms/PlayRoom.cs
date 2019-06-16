@@ -1,26 +1,39 @@
-﻿using NeuromaaniTextAdventureGame.Locations;
+﻿using NeuromaaniTextAdventureGame.FileManager;
+using NeuromaaniTextAdventureGame.Game;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
-namespace NeuromaaniTextAdventureGame.Game
+namespace NeuromaaniTextAdventureGame.Rooms
 {
-    public abstract class PlayLocation
+    public abstract class PlayRoom
     {
+        FileReader _reader = new FileReader();
+
         private bool exit = true;
         public abstract Location setUp();
         public abstract void generateSpecialActions(SpecialAction action);
+
+        // Handle PositionTop:
+
+        int PositionTop = 12;
+
+        void IncreasePositionTop() => PositionTop += 2;
+
+        int GetPositionTop() => PositionTop;
+
+        public int ResetPositionTop() => PositionTop = 12;
+
+        // Play
+
         public void describeLocation(Location location)
         {
             if (location == null)
             {
                 throw new ArgumentNullException(nameof(location));
             }
-
-            Console.WriteLine(location.Description);
+            ResetPositionTop();
+            Frame.ClearAndDrawFrame();
+            _reader.DisplayTextFromFile(location.DescriptionFile, location.ChapterIndex, 4);
         }
 
         public void playGame()
@@ -30,8 +43,9 @@ namespace NeuromaaniTextAdventureGame.Game
 
             while (exit)
             {
-                Console.WriteLine(">\n");
+                Console.SetCursorPosition(4, GetPositionTop());
                 string command = Regex.Replace(Console.ReadLine().ToLower().Trim(), "[?!]", "");
+                IncreasePositionTop();
 
                 if (UserInput.IsCommandDirection(command))
                 {
@@ -41,13 +55,16 @@ namespace NeuromaaniTextAdventureGame.Game
                     {
                         location = destination;
                         describeLocation(location);
-                        Game.currentRoom = location;
+                        PlayGame.currentRoom = location;
                         if (location.ExitSpace) exit = false;
                     }
 
                     else
                     {
-                        Console.WriteLine("You can't go this way.");
+                        Console.SetCursorPosition(3, GetPositionTop());
+                        Console.WriteLine("Täällä ei ole mitään.");
+                        IncreasePositionTop();
+
                     }
                 }
 
@@ -55,12 +72,16 @@ namespace NeuromaaniTextAdventureGame.Game
                 {
                     if (location.Item != null && command.Split(new string[] { " " }, StringSplitOptions.None)[1] == location.Item)
                     {
+                        Console.SetCursorPosition(4, GetPositionTop() + 2);
                         Console.WriteLine("{0} repussa.", location.Item.Remove(1).ToUpper() + location.Item.Substring(1));
+                        IncreasePositionTop();
                     }
 
                     else
                     {
+                        Console.SetCursorPosition(4, GetPositionTop() + 2);
                         Console.WriteLine("Tavaraa ei löydy.");
+                        IncreasePositionTop();
                     }
                 }
 
@@ -100,15 +121,17 @@ namespace NeuromaaniTextAdventureGame.Game
 
                 }
 
-                else if (command == "quit")
+                else if (command == "lopeta")
                 {
-                    Game.gameOn = false;
+                    PlayGame.gameOn = false;
                     return;
                 }
 
                 else
                 {
-                    Console.WriteLine("I don't understand");
+                    Console.SetCursorPosition(4, GetPositionTop());
+                    Console.WriteLine("En ymmärrä.");
+                    IncreasePositionTop();
                 }
             }
         }

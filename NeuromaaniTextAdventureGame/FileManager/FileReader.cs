@@ -10,7 +10,6 @@ namespace NeuromaaniTextAdventureGame.FileManager
     public class FileReader
     {
         FileVerifier _verifier = new FileVerifier();
-        static int PositionTop;
 
         // Use this function to display text 
 
@@ -25,7 +24,6 @@ namespace NeuromaaniTextAdventureGame.FileManager
                 positionTop++;
             });
 
-           PositionTop = positionTop;
         }
         public void DisplayText(string text, int positionTop, int positionLeft = 4)
         {
@@ -35,17 +33,7 @@ namespace NeuromaaniTextAdventureGame.FileManager
                 Console.WriteLine(r);
                 positionTop++;
             });
-
-            PositionTop = positionTop;
         }
-
-        // Use this function to get the latest positiontop 
-
-        public int GetPositionTop() => PositionTop + 1;
-
-        // Use this to set positiontop to default
-
-        public int ResetPositionTop() => PositionTop = 10;
 
 
         // Helper functions:
