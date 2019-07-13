@@ -139,8 +139,8 @@ namespace NeuromaaniTextAdventureGame.Game
 
         // Function that prints instructions how to play game
 
-        public static void GiveInstructions() {
-            Frame.ClearAndDrawFrame();
+        public static void GiveInstructions(Frame frame) {
+            frame.ClearAndDrawFrame();
             Console.SetCursorPosition(4, 19);
             Console.WriteLine("Ohjeita");
         }
@@ -171,7 +171,6 @@ namespace NeuromaaniTextAdventureGame.Game
             }
         }
 
-        // Helper functions
         public static string generateRandomAnswer(string[] answers)
         {
             Random random = new Random();

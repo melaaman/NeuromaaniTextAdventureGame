@@ -9,29 +9,34 @@ namespace NeuromaaniTextAdventureGame.FileManager
 {
     public class FileReader
     {
+        public static int cursoreTop;
         FileVerifier _verifier = new FileVerifier();
 
-        // Use this function to display text 
+        // Display text 
 
-        public void DisplayTextFromFile(string fileName, int chapterIndex, int positionTop, int positionLeft = 4)
+        public void DisplayTextFromFile(string fileName, int chapterIndex, int top, int left = 4)
         {
             var text = GetTextChapterFromFile(fileName, chapterIndex);
 
             ConvertTextToArray(text).ToList().ForEach(r =>
             {
-                Console.SetCursorPosition(positionLeft, positionTop);
+                Console.SetCursorPosition(left, top);
                 Console.WriteLine(r);
-                positionTop++;
+                top++;
+
+                cursoreTop = top;
             });
 
         }
-        public void DisplayText(string text, int positionTop, int positionLeft = 4)
+        public void DisplayText(string text, int top, int left = 4)
         {
             ConvertTextToArray(text).ToList().ForEach(r =>
             {
-                Console.SetCursorPosition(positionLeft, positionTop);
+                Console.SetCursorPosition(left, top);
                 Console.WriteLine(r);
-                positionTop++;
+                top++;
+
+                cursoreTop = top;
             });
         }
 

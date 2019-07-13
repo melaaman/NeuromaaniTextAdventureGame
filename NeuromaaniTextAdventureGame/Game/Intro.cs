@@ -4,10 +4,16 @@ using System.Threading;
 
 namespace NeuromaaniTextAdventureGame.Game
 {
-    public static class Intro
+    public class Intro
     {
         static FileReader _reader = new FileReader();
-        public static void DisplayIntro()
+        private Frame _frame = new Frame();
+
+        public Intro(Frame frame)
+        {
+            _frame = frame;
+        }
+        public void DisplayIntro()
         {
             //DisplayTitleText();
             //DisplayIntroText();
@@ -75,9 +81,9 @@ namespace NeuromaaniTextAdventureGame.Game
             GeneralUtils.PlayEnter(17, 3);
             Console.Clear();
         }
-        static void AskPlayerName()
+        void AskPlayerName()
         {
-            Frame.ClearAndDrawFrame();
+            _frame.ClearAndDrawFrame();
             _reader.DisplayTextFromFile("start.txt", 0, 4);
             while (true)
             {
@@ -86,23 +92,23 @@ namespace NeuromaaniTextAdventureGame.Game
 
                 if (!string.IsNullOrWhiteSpace(userInput))
                 {
-                    Frame.PlayerName = userInput;
+                    _frame.GivePlayerName(userInput);
                     return;
                 }
 
             }
         }
-        static void GiveInstructions()
+        void GiveInstructions()
         {
-            Frame.ClearAndDrawFrame();
+            _frame.ClearAndDrawFrame();
             _reader.DisplayTextFromFile("start.txt", 1, 4);
             Console.SetCursorPosition(4, 8);
-            Console.WriteLine("Mutta Gereg ei saa yksin mitään aikaan, siksi sinä, {0}, olet tässä. ", Frame.PlayerName);
+            Console.WriteLine("Mutta Gereg ei saa yksin mitään aikaan, siksi sinä, {0}, olet tässä. ", _frame.GetPlayerName());
             _reader.DisplayTextFromFile("start.txt", 2, 10);
             _reader.DisplayTextFromFile("start.txt", 3, 15);
             Console.SetCursorPosition(4, 18);
         }
-        static void StartGame()
+        void StartGame()
         {
             for (int i = 0; i < 5; i++)
             {

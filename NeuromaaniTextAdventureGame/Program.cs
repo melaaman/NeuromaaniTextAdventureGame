@@ -1,4 +1,5 @@
 
+using NeuromaaniTextAdventureGame.FileManager;
 using NeuromaaniTextAdventureGame.Game;
 
 namespace NeuromaaniTextAdventureGame
@@ -7,8 +8,14 @@ namespace NeuromaaniTextAdventureGame
     {
         static void Main(string[] args)
         {
-            PlayGame _game = new PlayGame();
-            Intro.DisplayIntro();
+            Frame _frame = new Frame();
+            FileReader _reader = new FileReader();
+
+
+            PlayGame _game = new PlayGame(_frame, _reader);
+            Intro _intro = new Intro(_frame);
+
+            _intro.DisplayIntro();
             _game.Game();
 
             //FileReader reader = new FileReader();

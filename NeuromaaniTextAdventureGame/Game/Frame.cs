@@ -8,23 +8,26 @@ namespace NeuromaaniTextAdventureGame.Game
 {
     public class Frame
     {
-        public static string PlayerName = "";
-        public static int PointsCurrent = 0;
-        public static int PointsFull = 100;
-
-        public static void ClearAndDrawFrame()
+        private string _playerName = "";
+        private int _pointsCurrent = 0;
+        private int _pointsFull = 100;
+        public void ClearAndDrawFrame()
         {
             Console.Clear();
             DrawFrame();
         }
 
-        static string GetPlayerName() => GeneralUtils.TruncateString(PlayerName);
+        public string GetPlayerName() => GeneralUtils.TruncateString(_playerName);
 
-        public static void AddPoints(int points) => GeneralUtils.AddUntilHundred(PointsCurrent, points);
+        public void GivePlayerName(string playerName) {
+            _playerName = playerName;
+        }
 
-        public static void SubtractPoints(int points) => GeneralUtils.Subtract(PointsCurrent, points);
+        public void AddPoints(int points) => GeneralUtils.AddUntilHundred(_pointsCurrent, points);
 
-        static void DrawFrame()
+        public void SubtractPoints(int points) => GeneralUtils.Subtract(_pointsCurrent, points);
+
+        private void DrawFrame()
         {
 
             // pistepalkki
@@ -36,7 +39,7 @@ namespace NeuromaaniTextAdventureGame.Game
             Console.SetCursorPosition(5, 1);
             Console.WriteLine("Nimi: {0}", GetPlayerName());
             Console.SetCursorPosition(22, 1);
-            Console.WriteLine("Tyylipisteet: {0}/{1}", PointsCurrent, PointsFull);
+            Console.WriteLine("Tyylipisteet: {0}/{1}", _pointsCurrent, _pointsFull);
             Console.SetCursorPosition(50, 1);
             Console.WriteLine("Reppu: {0}", "Tähän repun sisältö");
             Console.ForegroundColor = ConsoleColor.Cyan;

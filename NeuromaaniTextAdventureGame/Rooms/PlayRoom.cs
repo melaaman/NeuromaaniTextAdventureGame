@@ -2,88 +2,137 @@
 using NeuromaaniTextAdventureGame.Game;
 using System;
 using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace NeuromaaniTextAdventureGame.Rooms
 {
     public abstract class PlayRoom
     {
-        FileReader _reader = new FileReader();
-
-        private bool exit = true;
         public abstract Location setUp();
-        public abstract void generateSpecialActions(SpecialAction action);
+        public abstract void GenerateSpecialActions(SpecialAction action, Frame frame);
 
-        // Handle PositionTop:
-
-        int PositionTop = 12;
-
-        void IncreasePositionTop() => PositionTop += 2;
-
-        int GetPositionTop() => PositionTop;
-
-        public int ResetPositionTop() => PositionTop = 12;
-
-        // Play
-
-        public void describeLocation(Location location)
+        public void describeLocation(Location location, Frame frame, FileReader reader)
         {
             if (location == null)
             {
                 throw new ArgumentNullException(nameof(location));
             }
-            ResetPositionTop();
-            Frame.ClearAndDrawFrame();
-            _reader.DisplayTextFromFile(location.DescriptionFile, location.ChapterIndex, 4);
+
+            frame.ClearAndDrawFrame();
+
+            reader.DisplayTextFromFile(location.File, location.ChapterIndex, 4);
         }
 
-        public void playGame()
+        static void Hit()
         {
-            var location = setUp();
-            describeLocation(location);
+            string pam = @"
+______  ___ ___  ____ 
+| ___ \/ _ \|  \/  | |
+| |_/ / /_\ \ .  . | |
+|  __/|  _  | |\/| | |
+| |   | | | | |  | |_|
+\_|   \_| |_|_|  |_(_)";
 
-            while (exit)
+            string[] pamRivit = pam.Split(new string[] { "\n" }, StringSplitOptions.None);
+            var top = 6;
+
+            Console.SetCursorPosition(4, top);
+
+            foreach (var item in pamRivit)
             {
-                Console.SetCursorPosition(4, GetPositionTop());
-                string command = Regex.Replace(Console.ReadLine().ToLower().Trim(), "[?!]", "");
-                IncreasePositionTop();
+                //kysyUudelleen = false;
+                Console.SetCursorPosition(4, top);
+                Console.WriteLine(item);
+                top++;
+            }
 
+            Thread.Sleep(500);
+        }
+        public void playGame(Frame frame, FileReader reader)
+        {
+
+            // Rooms
+
+            var location = setUp();
+            describeLocation(location, frame, reader);
+
+            while (true)
+            {
+                // Cursore position
+                var getCursoreTop = FileReader.cursoreTop + 2;
+
+
+                Console.SetCursorPosition(4, getCursoreTop);
+                var command = Regex.Replace(Console.ReadLine().ToLower().Trim(), "[?!]", "");
+
+                // Go to commandse
+                frame.ClearAndDrawFrame();
                 if (UserInput.IsCommandDirection(command))
                 {
                     Location destination;
 
-                    if (location.Exits.TryGetValue(UserInput.ConvertCommandToDirectionEnum(command), out destination))
+                    if (location.CurrentPoint == UserInput.ConvertCommandToDirectionEnum(command))
+                    {
+                        reader.DisplayText("Olet jo siellä", 4);
+                    }
+
+                    else if (location.Exits.TryGetValue(UserInput.ConvertCommandToDirectionEnum(command), out destination))
                     {
                         location = destination;
-                        describeLocation(location);
+                        describeLocation(location, frame, reader);
                         PlayGame.currentRoom = location;
-                        if (location.ExitSpace) exit = false;
+
+                        if (location.ExitSpace)
+                        {
+                            bool exitLoop = false;
+                            while (!exitLoop)
+                            {
+                                Console.SetCursorPosition(4, getCursoreTop);
+                                var answer = Regex.Replace(Console.ReadLine().ToLower().Trim(), "[?!]", "");
+
+                                if (answer == "kyllä")
+                                {
+                                    return;
+                                }
+
+                                else if (answer == "ei")
+                                {
+                                    exitLoop = true;
+                                }
+
+                                else
+                                {
+                                    frame.ClearAndDrawFrame();
+                                    reader.DisplayText("Kyllä vai ei?", 4);
+                                }
+                            }
+
+                        };
                     }
 
                     else
                     {
-                        Console.SetCursorPosition(3, GetPositionTop());
-                        Console.WriteLine("Täällä ei ole mitään.");
-                        IncreasePositionTop();
-
+                        frame.ClearAndDrawFrame();
+                        reader.DisplayText("Et pääse sinne.", 4);
                     }
                 }
+
+                // Take an item
 
                 else if (UserInput.IsCommandTakeItem(command))
                 {
                     if (location.Item != null && command.Split(new string[] { " " }, StringSplitOptions.None)[1] == location.Item)
                     {
-                        Console.SetCursorPosition(4, GetPositionTop() + 2);
-                        Console.WriteLine("{0} repussa.", location.Item.Remove(1).ToUpper() + location.Item.Substring(1));
-                        IncreasePositionTop();
+
                     }
 
                     else
                     {
-                        Console.SetCursorPosition(4, GetPositionTop() + 2);
-                        Console.WriteLine("Tavaraa ei löydy.");
-                        IncreasePositionTop();
+
                     }
                 }
+
+                // Say something
 
                 else if (UserInput.IsCommandSay(command))
                 {
@@ -93,45 +142,52 @@ namespace NeuromaaniTextAdventureGame.Rooms
                     {
                         if (commandEnum == Say.Hello)
                         {
-                            UserInput.GenerateAnswerFromEnum(commandEnum, location.Person);
+
                         }
 
                         if (commandEnum == Say.Stupid)
                         {
-                            UserInput.GenerateAnswerFromEnum(commandEnum, location.Person);
+
                         }
 
                         if (commandEnum == Say.HowAreYou)
                         {
-                            UserInput.GenerateAnswerFromEnum(commandEnum, location.Person);
+
                         }
                     }
 
                 }
 
+                // Ask for help
+
                 else if (UserInput.IsCommandAskHelp(command))
                 {
-                    UserInput.GiveInstructions();
+                    UserInput.GiveInstructions(frame);
                 }
+
+                // Special Actions
 
                 else if (UserInput.IsCommandAction(command) && location.SpecialActions)
                 {
-                    var action = UserInput.ConvertActionCommandToEnum(command);
-                    generateSpecialActions(action);
 
+                    if (UserInput.ConvertActionCommandToEnum(command) == SpecialAction.Hit)
+                    {
+                        frame.ClearAndDrawFrame();
+                        Hit();
+                    }
                 }
+
+                // Stop playing
 
                 else if (command == "lopeta")
                 {
-                    PlayGame.gameOn = false;
-                    return;
+
                 }
 
                 else
                 {
-                    Console.SetCursorPosition(4, GetPositionTop());
-                    Console.WriteLine("En ymmärrä.");
-                    IncreasePositionTop();
+                    frame.ClearAndDrawFrame();
+                    reader.DisplayText("Gereg ei ymmärrä käskyäsi.", 4);
                 }
             }
         }
