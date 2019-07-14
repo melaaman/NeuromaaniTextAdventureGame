@@ -57,25 +57,25 @@ ______  ___ ___  ____
             Thread.Sleep(500);
         }
 
-        void GenerateAnswerFromEnum(Say say, string person)
+        void GenerateAnswerFromEnum(Say say, string person, FileReader reader)
         {
 
             if (say == Say.Hello)
             {
                 string[] answers = { "No hei vaan", "Terve", "Hej" };
-                Console.WriteLine("{0} sanoo: {1}", person, GenerateRandomAnswer(answers));
+                GenerateAnswer(person + " sanoo: " + GenerateRandomAnswer(answers), reader);
             }
 
             if (say == Say.Stupid)
             {
                 string[] answers = { "Se oli ikävästi sanottu.", "????" };
-                Console.WriteLine("{0} sanoo: {1}", person, GenerateRandomAnswer(answers));
+                GenerateAnswer(person + " sanoo: " + GenerateRandomAnswer(answers), reader);
             }
 
             if (say == Say.HowAreYou)
             {
                 string[] answers = { "Ihan ok", "Siinähän se" };
-                Console.WriteLine("{0} sanoo: {1}", person, GenerateRandomAnswer(answers));
+                GenerateAnswer(person + " sanoo: " + GenerateRandomAnswer(answers), reader);
             }
         }
 
@@ -169,8 +169,7 @@ ______  ___ ___  ____
                 }
 
                 // Use an item
-
-                // Code
+                // Code here
 
                 // Say something
 
@@ -182,17 +181,17 @@ ______  ___ ___  ____
                     {
                         if (commandEnum == Say.Hello)
                         {
-                            GenerateAnswerFromEnum(commandEnum, location.Person);
+                            GenerateAnswerFromEnum(commandEnum, location.Person, reader);
                         }
 
                         if (commandEnum == Say.Stupid)
                         {
-
+                            GenerateAnswerFromEnum(commandEnum, location.Person, reader);
                         }
 
                         if (commandEnum == Say.HowAreYou)
                         {
-
+                            GenerateAnswerFromEnum(commandEnum, location.Person, reader);
                         }
                     }
 
