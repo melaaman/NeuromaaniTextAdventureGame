@@ -11,7 +11,7 @@ namespace NeuromaaniTextAdventureGame.Rooms
         public abstract Location setUp();
         public abstract void GenerateSpecialActions(SpecialAction action, Frame frame);
 
-        public void describeLocation(Location location, Frame frame, FileReader reader)
+        void describeLocation(Location location, Frame frame, FileReader reader)
         {
             if (location == null)
             {
@@ -19,10 +19,14 @@ namespace NeuromaaniTextAdventureGame.Rooms
             }
 
             frame.ClearAndDrawFrame();
-
             reader.DisplayTextFromFile(location.File, location.ChapterIndex, 4);
         }
 
+        static void GenerateAnswer(string answer, Frame frame, FileReader reader)
+        {
+            frame.ClearAndDrawFrame();
+            reader.DisplayText(answer, 4);
+        }
         static void Hit()
         {
             string pam = @"
@@ -48,7 +52,38 @@ ______  ___ ___  ____
 
             Thread.Sleep(500);
         }
-        public void playGame(Frame frame, FileReader reader)
+
+        static void GenerateAnswerFromEnum(Say say, string person)
+        {
+
+            if (say == Say.Hello)
+            {
+                string[] answers = { "No hei vaan", "Terve", "Hej" };
+                Console.WriteLine("{0} sanoo: {1}", person, generateRandomAnswer(answers));
+            }
+
+            if (say == Say.Stupid)
+            {
+                string[] answers = { "Se oli ikävästi sanottu.", "????" };
+                Console.WriteLine("{0} sanoo: {1}", person, generateRandomAnswer(answers));
+            }
+
+            if (say == Say.HowAreYou)
+            {
+                string[] answers = { "Ihan ok", "Siinähän se" };
+                Console.WriteLine("{0} sanoo: {1}", person, generateRandomAnswer(answers));
+            }
+        }
+
+        public static string generateRandomAnswer(string[] answers)
+        {
+            Random random = new Random();
+            var randomIndex = random.Next(answers.Length);
+            return answers[randomIndex];
+        }
+
+        // Play room
+        public void Play(Frame frame, FileReader reader)
         {
 
             // Rooms
@@ -58,22 +93,19 @@ ______  ___ ___  ____
 
             while (true)
             {
-                // Cursore position
-                var getCursoreTop = FileReader.cursoreTop + 2;
 
-
-                Console.SetCursorPosition(4, getCursoreTop);
+                Console.SetCursorPosition(4, Console.CursorTop + 1);
                 var command = Regex.Replace(Console.ReadLine().ToLower().Trim(), "[?!]", "");
 
-                // Go to commandse
-                frame.ClearAndDrawFrame();
+                // Go to
                 if (UserInput.IsCommandDirection(command))
                 {
                     Location destination;
 
                     if (location.CurrentPoint == UserInput.ConvertCommandToDirectionEnum(command))
                     {
-                        reader.DisplayText("Olet jo siellä", 4);
+                        reader.DisplayText("Olet jo siellä", Console.CursorTop + 1);
+
                     }
 
                     else if (location.Exits.TryGetValue(UserInput.ConvertCommandToDirectionEnum(command), out destination))
@@ -87,7 +119,7 @@ ______  ___ ___  ____
                             bool exitLoop = false;
                             while (!exitLoop)
                             {
-                                Console.SetCursorPosition(4, getCursoreTop);
+                                Console.SetCursorPosition(4, Console.CursorTop + 1);
                                 var answer = Regex.Replace(Console.ReadLine().ToLower().Trim(), "[?!]", "");
 
                                 if (answer == "kyllä")
@@ -102,8 +134,7 @@ ______  ___ ___  ____
 
                                 else
                                 {
-                                    frame.ClearAndDrawFrame();
-                                    reader.DisplayText("Kyllä vai ei?", 4);
+                                    reader.DisplayText("Kyllä vai ei?", Console.CursorTop + 1);
                                 }
                             }
 
@@ -112,8 +143,7 @@ ______  ___ ___  ____
 
                     else
                     {
-                        frame.ClearAndDrawFrame();
-                        reader.DisplayText("Et pääse sinne.", 4);
+                        reader.DisplayText("Et pääse sinne.", Console.CursorTop + 1);
                     }
                 }
 
@@ -142,7 +172,7 @@ ______  ___ ___  ____
                     {
                         if (commandEnum == Say.Hello)
                         {
-
+                            GenerateAnswerFromEnum(commandEnum, location.Person);
                         }
 
                         if (commandEnum == Say.Stupid)
@@ -162,19 +192,22 @@ ______  ___ ___  ____
 
                 else if (UserInput.IsCommandAskHelp(command))
                 {
-                    UserInput.GiveInstructions(frame);
+                    GenerateAnswer("Ohjeita", frame, reader);
                 }
 
                 // Special Actions
 
-                else if (UserInput.IsCommandAction(command) && location.SpecialActions)
+                else if (UserInput.IsCommandHit(command))
                 {
-
-                    if (UserInput.ConvertActionCommandToEnum(command) == SpecialAction.Hit)
-                    {
                         frame.ClearAndDrawFrame();
                         Hit();
-                    }
+                        GenerateAnswer("Se oli ikävästi tehty.", frame, reader);
+
+                }
+
+                else if (UserInput.IsCommandSpecialAction(command) && location.SpecialActions)
+                {
+                    //
                 }
 
                 // Stop playing
@@ -186,8 +219,7 @@ ______  ___ ___  ____
 
                 else
                 {
-                    frame.ClearAndDrawFrame();
-                    reader.DisplayText("Gereg ei ymmärrä käskyäsi.", 4);
+                    GenerateAnswer("Gereg ei ymmärrä käskyäsi.", frame, reader);
                 }
             }
         }

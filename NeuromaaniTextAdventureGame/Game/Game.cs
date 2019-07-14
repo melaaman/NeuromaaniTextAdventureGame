@@ -27,7 +27,7 @@ namespace NeuromaaniTextAdventureGame.Game
         {
             while (gameOn)
             {
-                _bedRoom.playGame(_frame, _reader);
+                _bedRoom.Play(_frame, _reader);
                 gameOn = false;
             }
 

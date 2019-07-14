@@ -20,6 +20,7 @@ namespace NeuromaaniTextAdventureGame.Rooms
             File = "bedroom.txt",
             ChapterIndex = 1,
             CurrentPoint = Direction.North,
+            Person = "tyyppi"
         };
 
         Location wallWithPoster = new Location()
@@ -73,10 +74,8 @@ namespace NeuromaaniTextAdventureGame.Rooms
 
         public override void GenerateSpecialActions(SpecialAction action, Frame frame)
         {
-            if (action == SpecialAction.Hit)
-            {
-
-            }
+            throw new NotImplementedException();
         }
+
     }
 }

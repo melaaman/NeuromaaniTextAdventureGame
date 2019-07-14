@@ -1,4 +1,5 @@
 ﻿using NeuromaaniTextAdventureGame.Game;
+using NeuromaaniTextAdventureGame.Rooms;
 using NUnit.Framework;
 
 namespace NeuromaaniTextAdventureGame.Tests.Game.Tests
@@ -55,7 +56,7 @@ namespace NeuromaaniTextAdventureGame.Tests.Game.Tests
 
         public void isCommandAction_CorrectInput_ReturnTrue(string input)
         {
-            var result = UserInput.IsCommandAction(input);
+            var result = UserInput.IsCommandHit(input);
             Assert.AreEqual(true, result);
         }
 
@@ -85,8 +86,8 @@ namespace NeuromaaniTextAdventureGame.Tests.Game.Tests
         [Test]
         public void convertActionCommandToEnum_CorrectInput_ReturnTrue()
         {
-            var result = UserInput.ConvertActionCommandToEnum("Lyö ");
-            Assert.AreEqual(SpecialAction.Hit, result);
+            var result = UserInput.ConvertHitCommandToEnum("Lyö ");
+            Assert.AreEqual(Hit.Hit, result);
         }
 
         [Test]
@@ -101,7 +102,7 @@ namespace NeuromaaniTextAdventureGame.Tests.Game.Tests
         public void generateRandomAnswer_OnePossibleAnswer_ReturnTrue()
         {
             string[] answers = { "Hei" };
-            var result = UserInput.generateRandomAnswer(answers);
+            var result = PlayRoom.generateRandomAnswer(answers);
             Assert.AreEqual("Hei", result);
         }
 

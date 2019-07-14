@@ -22,9 +22,14 @@ namespace NeuromaaniTextAdventureGame.Game
         Default
     }
 
-    public enum SpecialAction
+    public enum Hit
     {
         Hit,
+        Default
+    }
+
+    public enum SpecialAction
+    {
         Default
     }
     public class UserInput
@@ -47,7 +52,7 @@ namespace NeuromaaniTextAdventureGame.Game
         public static string[] sayCommands = sayHello.Concat(sayStupid).Concat(askHowAreYou).ToArray();
 
         public static string[] hitCommand = { "lyö" };
-        public static string[] specialActionCommands = hitCommand;
+        public static string[] specialActionCommands = { };
 
         // Functions to check that user inputs are correct
         public static bool IsCommandDirection(string command) => directionCommands.Contains(command.ToLower().Trim()) ? true : false;
@@ -64,8 +69,9 @@ namespace NeuromaaniTextAdventureGame.Game
 
             return false;
         }
-        public static bool IsCommandAction(string command) => hitCommand.Contains(command.ToLower().Trim()) ? true : false;
+        public static bool IsCommandHit(string command) => hitCommand.Contains(command.ToLower().Trim()) ? true : false;
 
+        public static bool IsCommandSpecialAction(string command) => specialActionCommands.Contains(command.ToLower().Trim()) ? true : false;
         // Functions that convert user inputs to Enums
 
         public static Direction ConvertCommandToDirectionEnum(string command)
@@ -121,61 +127,24 @@ namespace NeuromaaniTextAdventureGame.Game
             }
         }
 
-        public static SpecialAction ConvertActionCommandToEnum(string command)
+        public static Hit ConvertHitCommandToEnum(string command)
         {
             var trimmedCommand = command.ToLower().Trim();
 
             if (hitCommand.Contains(trimmedCommand))
             {
-                return SpecialAction.Hit;
+                return Hit.Hit;
             }
 
             else
             {
-                return SpecialAction.Default;
+                return Hit.Default;
             }
         }
-
-
-        // Function that prints instructions how to play game
-
-        public static void GiveInstructions(Frame frame) {
-            frame.ClearAndDrawFrame();
-            Console.SetCursorPosition(4, 19);
-            Console.WriteLine("Ohjeita");
-        }
-
-        // TO DO: Function that prints answer to "ööö" type of help
-
-        // Functions that generate answers to general questions
-
-        public static void GenerateAnswerFromEnum(Say say, string person)
+        public static SpecialAction ConvertActionCommandToEnum(string command)
         {
-
-            if (say == Say.Hello)
-            {
-                string[] answers =  { "No hei vaan", "Terve", "Hej" };
-                Console.WriteLine("{0} sanoo: {1}", person, generateRandomAnswer(answers));
-            }
-
-            if (say == Say.Stupid)
-            {
-                string[] answers = { "Se oli ikävästi sanottu.", "????" };
-                Console.WriteLine("{0} sanoo: {1}", person, generateRandomAnswer(answers));
-            }
-
-            if (say == Say.HowAreYou)
-            {
-                string[] answers = { "Ihan ok", "Siinähän se" };
-                Console.WriteLine("{0} sanoo: {1}", person, generateRandomAnswer(answers));
-            }
-        }
-
-        public static string generateRandomAnswer(string[] answers)
-        {
-            Random random = new Random();
-            var randomIndex = random.Next(answers.Length);
-            return answers[randomIndex];
+            var trimmedCommand = command.ToLower().Trim();
+            return SpecialAction.Default;
         }
 
     }

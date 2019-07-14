@@ -9,7 +9,6 @@ namespace NeuromaaniTextAdventureGame.FileManager
 {
     public class FileReader
     {
-        public static int cursoreTop;
         FileVerifier _verifier = new FileVerifier();
 
         // Display text 
@@ -23,8 +22,6 @@ namespace NeuromaaniTextAdventureGame.FileManager
                 Console.SetCursorPosition(left, top);
                 Console.WriteLine(r);
                 top++;
-
-                cursoreTop = top;
             });
 
         }
@@ -35,8 +32,6 @@ namespace NeuromaaniTextAdventureGame.FileManager
                 Console.SetCursorPosition(left, top);
                 Console.WriteLine(r);
                 top++;
-
-                cursoreTop = top;
             });
         }
 
