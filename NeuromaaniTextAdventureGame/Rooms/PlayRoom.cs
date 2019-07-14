@@ -22,16 +22,16 @@ namespace NeuromaaniTextAdventureGame.Rooms
             reader.DisplayTextFromFile(location.File, location.ChapterIndex, 4);
         }
 
+        void GenerateAnswer(string answer, FileReader reader)
+        {
+            reader.DisplayText(answer, GetTopCursore());
+        }
+
         int GetTopCursore()
         {
             return Console.CursorTop + 1;
         }
-        static void GenerateAnswer(string answer, Frame frame, FileReader reader)
-        {
-            frame.ClearAndDrawFrame();
-            reader.DisplayText(answer, 4);
-        }
-        static void Hit()
+        void Hit()
         {
             string pam = @"
 ______  ___ ___  ____ 
@@ -42,7 +42,7 @@ ______  ___ ___  ____
 \_|   \_| |_|_|  |_(_)";
 
             string[] pamRivit = pam.Split(new string[] { "\n" }, StringSplitOptions.None);
-            var top = 6;
+            var top = GetTopCursore();
 
             Console.SetCursorPosition(4, top);
 
@@ -57,29 +57,29 @@ ______  ___ ___  ____
             Thread.Sleep(500);
         }
 
-        static void GenerateAnswerFromEnum(Say say, string person)
+        void GenerateAnswerFromEnum(Say say, string person)
         {
 
             if (say == Say.Hello)
             {
                 string[] answers = { "No hei vaan", "Terve", "Hej" };
-                Console.WriteLine("{0} sanoo: {1}", person, generateRandomAnswer(answers));
+                Console.WriteLine("{0} sanoo: {1}", person, GenerateRandomAnswer(answers));
             }
 
             if (say == Say.Stupid)
             {
                 string[] answers = { "Se oli ikävästi sanottu.", "????" };
-                Console.WriteLine("{0} sanoo: {1}", person, generateRandomAnswer(answers));
+                Console.WriteLine("{0} sanoo: {1}", person, GenerateRandomAnswer(answers));
             }
 
             if (say == Say.HowAreYou)
             {
                 string[] answers = { "Ihan ok", "Siinähän se" };
-                Console.WriteLine("{0} sanoo: {1}", person, generateRandomAnswer(answers));
+                Console.WriteLine("{0} sanoo: {1}", person, GenerateRandomAnswer(answers));
             }
         }
 
-        public static string generateRandomAnswer(string[] answers)
+        public static string GenerateRandomAnswer(string[] answers)
         {
             Random random = new Random();
             var randomIndex = random.Next(answers.Length);
@@ -108,7 +108,7 @@ ______  ___ ___  ____
 
                     if (location.CurrentPoint == UserInput.ConvertCommandToDirectionEnum(command))
                     {
-                        reader.DisplayText("Olet jo siellä", GetTopCursore());
+                        GenerateAnswer("Olet jo siellä", reader);
 
                     }
 
@@ -121,6 +121,7 @@ ______  ___ ___  ____
                         if (location.ExitSpace)
                         {
                             bool exitLoop = false;
+
                             while (!exitLoop)
                             {
                                 Console.SetCursorPosition(4, GetTopCursore());
@@ -138,7 +139,7 @@ ______  ___ ___  ____
 
                                 else
                                 {
-                                    reader.DisplayText("Kyllä vai ei?", GetTopCursore());
+                                    GenerateAnswer("Kyllä vai ei?", reader);
                                 }
                             }
 
@@ -147,7 +148,7 @@ ______  ___ ___  ____
 
                     else
                     {
-                        reader.DisplayText("Et pääse sinne.", GetTopCursore());
+                        GenerateAnswer("Et pääse sinne.", reader);
                     }
                 }
 
@@ -157,14 +158,19 @@ ______  ___ ___  ____
                 {
                     if (location.Item != null && command.Split(new string[] { " " }, StringSplitOptions.None)[1] == location.Item)
                     {
-
+                        frame.AddItemToBag(location.Item);
+                        describeLocation(location, frame, reader);
                     }
 
                     else
                     {
-
+                        GenerateAnswer("Et voi ottaa tavaraa.", reader);
                     }
                 }
+
+                // Use an item
+
+                // Code
 
                 // Say something
 
@@ -196,17 +202,15 @@ ______  ___ ___  ____
 
                 else if (UserInput.IsCommandAskHelp(command))
                 {
-                    GenerateAnswer("Ohjeita", frame, reader);
+                    GenerateAnswer("Ohjeita", reader);
                 }
 
                 // Special Actions
 
                 else if (UserInput.IsCommandHit(command))
                 {
-                        frame.ClearAndDrawFrame();
-                        Hit();
-                        GenerateAnswer("Se oli ikävästi tehty.", frame, reader);
-
+                    Hit();
+                    GenerateAnswer("Se oli ikävästi tehty.", reader);
                 }
 
                 else if (UserInput.IsCommandSpecialAction(command) && location.SpecialActions)
@@ -223,7 +227,7 @@ ______  ___ ___  ____
 
                 else
                 {
-                    reader.DisplayText("Gereg ei ymmärrä käskyäsi.", Console.CursorTop + 1);
+                    reader.DisplayText("Gereg ei ymmärrä käskyäsi.", GetTopCursore());
                 }
             }
         }

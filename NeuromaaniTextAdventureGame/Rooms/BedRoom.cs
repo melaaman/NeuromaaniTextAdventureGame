@@ -20,7 +20,7 @@ namespace NeuromaaniTextAdventureGame.Rooms
             File = "bedroom.txt",
             ChapterIndex = 1,
             CurrentPoint = Direction.North,
-            Person = "tyyppi"
+            Person = "tyyppi",
         };
 
         Location wallWithPoster = new Location()
@@ -28,6 +28,7 @@ namespace NeuromaaniTextAdventureGame.Rooms
             File = "bedroom.txt",
             ChapterIndex = 2,
             CurrentPoint = Direction.West,
+            Item = "juliste"
         };
 
         Location doorWC = new Location()

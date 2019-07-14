@@ -102,7 +102,7 @@ namespace NeuromaaniTextAdventureGame.Tests.Game.Tests
         public void generateRandomAnswer_OnePossibleAnswer_ReturnTrue()
         {
             string[] answers = { "Hei" };
-            var result = PlayRoom.generateRandomAnswer(answers);
+            var result = PlayRoom.GenerateRandomAnswer(answers);
             Assert.AreEqual("Hei", result);
         }
 

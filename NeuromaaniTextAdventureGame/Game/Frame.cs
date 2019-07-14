@@ -11,13 +11,14 @@ namespace NeuromaaniTextAdventureGame.Game
         private string _playerName = "";
         private int _pointsCurrent = 0;
         private int _pointsFull = 100;
+        private List<string> _bag = new List<string>();
         public void ClearAndDrawFrame()
         {
             Console.Clear();
             DrawFrame();
         }
 
-        public string GetPlayerName() => GeneralUtils.TruncateString(_playerName);
+        public string GetPlayerName() => GeneralUtils.TruncateString(_playerName, 7);
 
         public void GivePlayerName(string playerName) {
             _playerName = playerName;
@@ -27,6 +28,29 @@ namespace NeuromaaniTextAdventureGame.Game
 
         public void SubtractPoints(int points) => GeneralUtils.Subtract(_pointsCurrent, points);
 
+        public void AddItemToBag(string item)
+        {
+            if (!_bag.Exists(i => i == item) == false) return;
+            _bag.Add(item);
+        }
+        public void RemoveItemFromBag(string item)
+        {
+
+            if (!_bag.Exists(i => i == item) || _bag.Count == 0) return;
+            _bag.Remove(item);
+        }
+
+        public string GetVisibleBag()
+        {
+            if (_bag == null) return "";
+            return string.Join(", ", _bag);
+        }
+
+        public string GetTruncatedVisibleBag()
+        {
+            if (_bag == null) return "";
+            return GeneralUtils.TruncateString(string.Join(", ", _bag), 30);
+        }
         private void DrawFrame()
         {
 
@@ -41,7 +65,7 @@ namespace NeuromaaniTextAdventureGame.Game
             Console.SetCursorPosition(22, 1);
             Console.WriteLine("Tyylipisteet: {0}/{1}", _pointsCurrent, _pointsFull);
             Console.SetCursorPosition(50, 1);
-            Console.WriteLine("Reppu: {0}", "Tähän repun sisältö");
+            Console.WriteLine("Reppu: {0}", GetTruncatedVisibleBag());
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("  ============================================================================================");
             Console.ResetColor();

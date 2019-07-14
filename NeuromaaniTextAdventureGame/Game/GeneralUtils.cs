@@ -17,7 +17,7 @@ namespace NeuromaaniTextAdventureGame.Game
             while (Console.ReadKey().Key != ConsoleKey.Enter) ;
         }
 
-        public static string TruncateString(string text) => text.Length > 8 ? text.Substring(0, 7) + "..." : text;
+        public static string TruncateString(string text, int breakPoint) => text.Length > breakPoint ? text.Substring(0, breakPoint - 1) + "..." : text;
 
         public static int AddUntilHundred(int currentNumber, int addedNumber) => currentNumber = addedNumber < 0 ? currentNumber : currentNumber + addedNumber > 100 ? 100 : currentNumber + addedNumber;
 

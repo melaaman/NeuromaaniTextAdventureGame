@@ -10,7 +10,7 @@ namespace NeuromaaniTextAdventureGame.Tests.Game.Tests
         [TestCase("viisi", "viisi")]
         public void TruncateString_StringOfEightOrLessCharacters_ReturnTrue(string input, string output)
         {
-            var result = GeneralUtils.TruncateString(input);
+            var result = GeneralUtils.TruncateString(input, 7);
             Assert.AreEqual(output, result);
         }
 
@@ -18,7 +18,7 @@ namespace NeuromaaniTextAdventureGame.Tests.Game.Tests
         [TestCase("viisitoista", "viisito...")]
         public void TruncateString_StringMoreThanEightCharacters_ReturnTrue(string input, string shouldBe)
         {
-            var result = GeneralUtils.TruncateString(input);
+            var result = GeneralUtils.TruncateString(input, 7);
             Assert.AreEqual(shouldBe, result);
         }
 
