@@ -22,6 +22,10 @@ namespace NeuromaaniTextAdventureGame.Rooms
             reader.DisplayTextFromFile(location.File, location.ChapterIndex, 4);
         }
 
+        int GetTopCursore()
+        {
+            return Console.CursorTop + 1;
+        }
         static void GenerateAnswer(string answer, Frame frame, FileReader reader)
         {
             frame.ClearAndDrawFrame();
@@ -94,7 +98,7 @@ ______  ___ ___  ____
             while (true)
             {
 
-                Console.SetCursorPosition(4, Console.CursorTop + 1);
+                Console.SetCursorPosition(4, GetTopCursore());
                 var command = Regex.Replace(Console.ReadLine().ToLower().Trim(), "[?!]", "");
 
                 // Go to
@@ -104,7 +108,7 @@ ______  ___ ___  ____
 
                     if (location.CurrentPoint == UserInput.ConvertCommandToDirectionEnum(command))
                     {
-                        reader.DisplayText("Olet jo siellä", Console.CursorTop + 1);
+                        reader.DisplayText("Olet jo siellä", GetTopCursore());
 
                     }
 
@@ -119,7 +123,7 @@ ______  ___ ___  ____
                             bool exitLoop = false;
                             while (!exitLoop)
                             {
-                                Console.SetCursorPosition(4, Console.CursorTop + 1);
+                                Console.SetCursorPosition(4, GetTopCursore());
                                 var answer = Regex.Replace(Console.ReadLine().ToLower().Trim(), "[?!]", "");
 
                                 if (answer == "kyllä")
@@ -134,7 +138,7 @@ ______  ___ ___  ____
 
                                 else
                                 {
-                                    reader.DisplayText("Kyllä vai ei?", Console.CursorTop + 1);
+                                    reader.DisplayText("Kyllä vai ei?", GetTopCursore());
                                 }
                             }
 
@@ -143,7 +147,7 @@ ______  ___ ___  ____
 
                     else
                     {
-                        reader.DisplayText("Et pääse sinne.", Console.CursorTop + 1);
+                        reader.DisplayText("Et pääse sinne.", GetTopCursore());
                     }
                 }
 
@@ -219,7 +223,7 @@ ______  ___ ___  ____
 
                 else
                 {
-                    GenerateAnswer("Gereg ei ymmärrä käskyäsi.", frame, reader);
+                    reader.DisplayText("Gereg ei ymmärrä käskyäsi.", Console.CursorTop + 1);
                 }
             }
         }
