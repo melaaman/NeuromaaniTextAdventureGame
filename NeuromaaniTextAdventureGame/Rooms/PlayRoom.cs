@@ -66,17 +66,18 @@ ______  ___ ___  ____
                 GenerateAnswer(person + " sanoo: " + GenerateRandomAnswer(answers), reader);
             }
 
+            if (say == Say.HowAreYou)
+            {
+                string[] answers = { "Ihan ok", "Siinähän se" };
+                GenerateAnswer(person + " sanoo: " + GenerateRandomAnswer(answers), reader);
+            }
+
             if (say == Say.Stupid)
             {
                 string[] answers = { "Se oli ikävästi sanottu.", "????" };
                 GenerateAnswer(person + " sanoo: " + GenerateRandomAnswer(answers), reader);
             }
 
-            if (say == Say.HowAreYou)
-            {
-                string[] answers = { "Ihan ok", "Siinähän se" };
-                GenerateAnswer(person + " sanoo: " + GenerateRandomAnswer(answers), reader);
-            }
         }
 
         public static string GenerateRandomAnswer(string[] answers)
