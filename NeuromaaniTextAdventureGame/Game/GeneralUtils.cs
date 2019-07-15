@@ -22,5 +22,6 @@ namespace NeuromaaniTextAdventureGame.Game
         public static int AddUntilHundred(int currentNumber, int addedNumber) => currentNumber = addedNumber < 0 ? currentNumber : currentNumber + addedNumber > 100 ? 100 : currentNumber + addedNumber;
 
         public static int Subtract(int currentNumber, int subtractedNumber) => currentNumber = subtractedNumber < 0 ? currentNumber + subtractedNumber : currentNumber - subtractedNumber;
+        public static int GetTopCursore() => Console.CursorTop + 1;
     }
 }

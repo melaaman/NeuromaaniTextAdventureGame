@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace NeuromaaniTextAdventureGame.Rooms
 {
-    public class BedRoom: PlayRoom
+    public class BedRoom : PlayRoom
     {
         Location start = new Location()
         {
@@ -20,6 +20,7 @@ namespace NeuromaaniTextAdventureGame.Rooms
         {
             File = "bedroom.txt",
             ChapterIndex = 1,
+            SpecialActions = true,
             CurrentPoint = Direction.North,
             Person = "tyyppi"
         };
@@ -74,10 +75,39 @@ namespace NeuromaaniTextAdventureGame.Rooms
 
         }
 
-        public override void GenerateSpecialActions(SpecialAction action, Frame frame)
+        public override void GenerateSpecialActions(SpecialAction action, Frame frame, FileReader reader, Location location, string item)
         {
-            throw new NotImplementedException();
-        }
+            try
+            {
+                if (action == SpecialAction.UseItem && frame.IsItemInBag(item))
+                {
+                    if (location.CurrentPoint == Direction.North)
+                    {
+                        reader.DisplayText("Auts!", GeneralUtils.GetTopCursore());
+                        
+                    }
 
+                    if (location.CurrentPoint == Direction.East)
+                    {
+                        //
+                    }
+
+                    if (location.CurrentPoint == Direction.South)
+                    {
+                        //
+                    }
+
+                    if (location.CurrentPoint == Direction.West)
+                    {
+                        //
+                    }
+                }
+            }
+
+            catch {
+                throw new NotImplementedException();
+            }
+        }
     }
+
 }

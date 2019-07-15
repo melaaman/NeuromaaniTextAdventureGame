@@ -9,7 +9,7 @@ namespace NeuromaaniTextAdventureGame.Rooms
     public abstract class PlayRoom
     {
         public abstract Location setUp();
-        public abstract void GenerateSpecialActions(SpecialAction action, Frame frame);
+        public abstract void GenerateSpecialActions(SpecialAction action, Frame frame, FileReader reader, Location location, string item);
 
         void describeLocation(Location location, Frame frame, FileReader reader)
         {
@@ -24,12 +24,7 @@ namespace NeuromaaniTextAdventureGame.Rooms
 
         void GenerateAnswer(string answer, FileReader reader)
         {
-            reader.DisplayText(answer, GetTopCursore());
-        }
-
-        int GetTopCursore()
-        {
-            return Console.CursorTop + 1;
+            reader.DisplayText(answer, GeneralUtils.GetTopCursore());
         }
         void Hit()
         {
@@ -42,7 +37,7 @@ ______  ___ ___  ____
 \_|   \_| |_|_|  |_(_)";
 
             string[] pamRivit = pam.Split(new string[] { "\n" }, StringSplitOptions.None);
-            var top = GetTopCursore();
+            var top = GeneralUtils.GetTopCursore();
 
             Console.SetCursorPosition(4, top);
 
@@ -99,7 +94,7 @@ ______  ___ ___  ____
             while (true)
             {
 
-                Console.SetCursorPosition(4, GetTopCursore());
+                Console.SetCursorPosition(4, GeneralUtils.GetTopCursore());
                 var command = Regex.Replace(Console.ReadLine().ToLower().Trim(), "[?!]", "");
 
                 // Go to
@@ -125,7 +120,7 @@ ______  ___ ___  ____
 
                             while (!exitLoop)
                             {
-                                Console.SetCursorPosition(4, GetTopCursore());
+                                Console.SetCursorPosition(4, GeneralUtils.GetTopCursore());
                                 var answer = Regex.Replace(Console.ReadLine().ToLower().Trim(), "[?!]", "");
 
                                 if (answer == "kyllä")
@@ -169,9 +164,6 @@ ______  ___ ___  ____
                     }
                 }
 
-                // Use an item
-                // Code here
-
                 // Say something
 
                 else if (UserInput.IsCommandSay(command))
@@ -207,15 +199,21 @@ ______  ___ ___  ____
 
                 // Special Actions
 
-                else if (UserInput.IsCommandHit(command))
-                {
-                    Hit();
-                    GenerateAnswer("Se oli ikävästi tehty.", reader);
-                }
-
                 else if (UserInput.IsCommandSpecialAction(command) && location.SpecialActions)
                 {
-                    //
+                    SpecialAction specialAction = UserInput.ConvertActionCommandToEnum(command);
+
+                    if (specialAction == SpecialAction.UseItem && !string.IsNullOrEmpty(location.Item))
+                    {
+                        string item = command.Split(new[] { ' ' }, 2, StringSplitOptions.RemoveEmptyEntries)[1].ToLower().Trim();
+                        GenerateSpecialActions(specialAction, frame, reader, location, item);
+                    }
+
+                    if (specialAction == SpecialAction.Hit)
+                    {
+                        Hit();
+                        GenerateSpecialActions(specialAction, frame, reader, location, "");
+                    }
                 }
 
                 // Stop playing
@@ -227,7 +225,7 @@ ______  ___ ___  ____
 
                 else
                 {
-                    reader.DisplayText("Gereg ei ymmärrä käskyäsi.", GetTopCursore());
+                    reader.DisplayText("Gereg ei ymmärrä käskyäsi.", GeneralUtils.GetTopCursore());
                 }
             }
         }

@@ -33,6 +33,12 @@ namespace NeuromaaniTextAdventureGame.Game
             if (!_bag.Exists(i => i == item) == false) return;
             _bag.Add(item);
         }
+
+        public bool IsItemInBag(string item)
+        {
+            if (_bag.Contains(item)) return true;
+            return false;
+        }
         public void RemoveItemFromBag(string item)
         {
 

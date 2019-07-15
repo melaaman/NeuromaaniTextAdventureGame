@@ -44,10 +44,19 @@ namespace NeuromaaniTextAdventureGame.Tests.Game.Tests
 
         [TestCase("sano hei")]
         [TestCase("Sano mitä kuuluu ")]
-        [TestCase("Sano Mitä kuuluu ")]
+        [TestCase("Sano  Mitä kuuluu ")]
         public void isCommandSay_CorrectInput_ReturnTrue(string input)
         {
             var result = UserInput.IsCommandSay(input);
+            Assert.AreEqual(true, result);
+        }
+
+        [TestCase("käytä tavara")]
+        [TestCase("Käytä tavara ")]
+        [TestCase("Käytä  Tavara ")]
+        public void IsCommandUseItem_CorrectInput_ReturnTrue(string input)
+        {
+            var result = UserInput.IsCommandUseItem(input);
             Assert.AreEqual(true, result);
         }
 
@@ -56,7 +65,7 @@ namespace NeuromaaniTextAdventureGame.Tests.Game.Tests
 
         public void isCommandAction_CorrectInput_ReturnTrue(string input)
         {
-            var result = UserInput.IsCommandHit(input);
+            var result = UserInput.IsCommandSpecialAction(input);
             Assert.AreEqual(true, result);
         }
 
@@ -83,11 +92,13 @@ namespace NeuromaaniTextAdventureGame.Tests.Game.Tests
             Assert.AreEqual(output, result);
         }
 
-        [Test]
-        public void convertActionCommandToEnum_CorrectInput_ReturnTrue()
+        [TestCase("Käytä tavara", SpecialAction.UseItem)]
+        [TestCase("Lyö ", SpecialAction.UseItem)]
+        public void convertActionCommandToEnum_CorrectInput_ReturnTrue(string command, SpecialAction action)
         {
-            var result = UserInput.ConvertHitCommandToEnum("Lyö ");
-            Assert.AreEqual(Hit.Hit, result);
+
+            var result = UserInput.ConvertActionCommandToEnum(command);
+            Assert.AreEqual(action, result);
         }
 
         [Test]

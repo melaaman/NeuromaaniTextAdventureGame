@@ -21,15 +21,10 @@ namespace NeuromaaniTextAdventureGame.Game
         HowAreYou,
         Default
     }
-
-    public enum Hit
-    {
-        Hit,
-        Default
-    }
-
     public enum SpecialAction
     {
+        Hit,
+        UseItem,
         Default
     }
     public class UserInput
@@ -51,8 +46,7 @@ namespace NeuromaaniTextAdventureGame.Game
         public static string[] askHowAreYou = { "mitä kuuluu", "miten menee" };
         public static string[] sayCommands = sayHello.Concat(sayStupid).Concat(askHowAreYou).ToArray();
 
-        public static string[] hitCommand = { "lyö" };
-        public static string[] specialActionCommands = { };
+        public static string[] specialActionCommands = { "lyö" };
 
         // Functions to check that user inputs are correct
         public static bool IsCommandDirection(string command) => directionCommands.Contains(command.ToLower().Trim()) ? true : false;
@@ -69,9 +63,19 @@ namespace NeuromaaniTextAdventureGame.Game
 
             return false;
         }
-        public static bool IsCommandHit(string command) => hitCommand.Contains(command.ToLower().Trim()) ? true : false;
 
-        public static bool IsCommandSpecialAction(string command) => specialActionCommands.Contains(command.ToLower().Trim()) ? true : false;
+        // Use item is part of special actions
+        public static bool IsCommandUseItem(string command)
+        {
+            if (!string.IsNullOrEmpty(command) && command.Contains(" "))
+            {
+                string[] splitCommand = command.Split(new[] { ' ' }, 2, StringSplitOptions.RemoveEmptyEntries);
+                return splitCommand[0].ToLower().Trim() == "käytä" ? true : false;
+            }
+
+            return false;
+        }
+        public static bool IsCommandSpecialAction(string command) => specialActionCommands.Contains(command.ToLower().Trim()) || IsCommandUseItem(command) ? true : false;
         // Functions that convert user inputs to Enums
 
         public static Direction ConvertCommandToDirectionEnum(string command)
@@ -126,24 +130,14 @@ namespace NeuromaaniTextAdventureGame.Game
                 return Say.Default;
             }
         }
-
-        public static Hit ConvertHitCommandToEnum(string command)
-        {
-            var trimmedCommand = command.ToLower().Trim();
-
-            if (hitCommand.Contains(trimmedCommand))
-            {
-                return Hit.Hit;
-            }
-
-            else
-            {
-                return Hit.Default;
-            }
-        }
         public static SpecialAction ConvertActionCommandToEnum(string command)
         {
             var trimmedCommand = command.ToLower().Trim();
+
+            if (IsCommandSpecialAction(trimmedCommand))
+            {
+                return SpecialAction.UseItem;
+            }
             return SpecialAction.Default;
         }
 
