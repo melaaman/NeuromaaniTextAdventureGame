@@ -7,7 +7,7 @@ namespace NeuromaaniTextAdventureGame.Game
     public class Intro
     {
         static FileReader _reader = new FileReader();
-        private Frame _frame = new Frame();
+        private Frame _frame;
 
         public Intro(Frame frame)
         {

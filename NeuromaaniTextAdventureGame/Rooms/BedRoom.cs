@@ -75,15 +75,15 @@ namespace NeuromaaniTextAdventureGame.Rooms
 
         }
 
-        public override void GenerateSpecialActions(SpecialAction action, Frame frame, FileReader reader, Location location, string item)
+        public override void GenerateSpecialActions(SpecialAction action, Bag bag, FileReader reader, Location location, string item)
         {
             try
             {
-                if (action == SpecialAction.UseItem && frame.IsItemInBag(item))
+                if (action == SpecialAction.UseItem && bag.IsItemInBag(item))
                 {
                     if (location.CurrentPoint == Direction.North)
                     {
-                        reader.DisplayText("Auts!", GeneralUtils.GetTopCursore());
+                        reader.DisplayText("Käytit tavaraa", GeneralUtils.GetTopCursore());
                         
                     }
 
@@ -101,6 +101,11 @@ namespace NeuromaaniTextAdventureGame.Rooms
                     {
                         //
                     }
+                }
+
+                if (action == SpecialAction.Hit)
+                {
+                    reader.DisplayText("Not nice", GeneralUtils.GetTopCursore());
                 }
             }
 

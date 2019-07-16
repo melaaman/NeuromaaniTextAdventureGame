@@ -75,7 +75,10 @@ namespace NeuromaaniTextAdventureGame.Game
 
             return false;
         }
-        public static bool IsCommandSpecialAction(string command) => specialActionCommands.Contains(command.ToLower().Trim()) || IsCommandUseItem(command) ? true : false;
+
+        public static bool IsCommandHit(string command) => !string.IsNullOrEmpty(command) && command.ToLower().Trim() == "lyö" ? true : false;
+        public static bool IsCommandSpecialAction(string command) => IsCommandHit(command) || IsCommandUseItem(command) ? true : false;
+        
         // Functions that convert user inputs to Enums
 
         public static Direction ConvertCommandToDirectionEnum(string command)
@@ -85,25 +88,22 @@ namespace NeuromaaniTextAdventureGame.Game
                 return Direction.East;
             }
 
-            else if (moveWest.Contains(command))
+            if (moveWest.Contains(command))
             {
                 return Direction.West;
             }
 
-            else if (moveSouth.Contains(command))
+            if (moveSouth.Contains(command))
             {
                 return Direction.South;
             }
 
-            else if (moveNorth.Contains(command))
+            if (moveNorth.Contains(command))
             {
                 return Direction.North;
             }
 
-            else
-            {
-                return Direction.Default;
-            }
+            return Direction.Default;
         }
 
         public static Say ConvertGeneralSayCommandEnum(string command)
@@ -115,29 +115,32 @@ namespace NeuromaaniTextAdventureGame.Game
                 return Say.Hello;
             }
 
-            else if (sayStupid.Contains(phrase))
+            if (sayStupid.Contains(phrase))
             {
                 return Say.Stupid;
             }
 
-            else if (askHowAreYou.Contains(phrase))
+            if (askHowAreYou.Contains(phrase))
             {
                 return Say.HowAreYou;
             }
 
-            else
-            {
-                return Say.Default;
-            }
+            return Say.Default;
         }
         public static SpecialAction ConvertActionCommandToEnum(string command)
         {
             var trimmedCommand = command.ToLower().Trim();
 
-            if (IsCommandSpecialAction(trimmedCommand))
+            if (IsCommandUseItem(trimmedCommand))
             {
                 return SpecialAction.UseItem;
             }
+
+            if (IsCommandHit(trimmedCommand))
+            {
+                return SpecialAction.Hit;
+            }
+
             return SpecialAction.Default;
         }
 

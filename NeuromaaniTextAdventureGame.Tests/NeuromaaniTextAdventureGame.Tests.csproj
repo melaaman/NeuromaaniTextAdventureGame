@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="FileManager.Tests\FileReaderTests.cs" />
     <Compile Include="FileManager.Tests\FileVerifierTests.cs" />
+    <Compile Include="Game.Tests\BagUnitTests.cs" />
     <Compile Include="Game.Tests\FrameTests.cs" />
     <Compile Include="Game.Tests\GeneralUtilsTests.cs" />
     <Compile Include="Game.Tests\UserInputTests.cs" />

@@ -60,7 +60,7 @@ namespace NeuromaaniTextAdventureGame.Tests.Game.Tests
             Assert.AreEqual(true, result);
         }
 
-        [TestCase("Lyö ")]
+        [TestCase("Lyö  ")]
         [TestCase("lyö")]
 
         public void isCommandAction_CorrectInput_ReturnTrue(string input)
@@ -93,7 +93,7 @@ namespace NeuromaaniTextAdventureGame.Tests.Game.Tests
         }
 
         [TestCase("Käytä tavara", SpecialAction.UseItem)]
-        [TestCase("Lyö ", SpecialAction.UseItem)]
+        [TestCase("Lyö ", SpecialAction.Hit)]
         public void convertActionCommandToEnum_CorrectInput_ReturnTrue(string command, SpecialAction action)
         {
 

@@ -8,9 +8,12 @@ namespace NeuromaaniTextAdventureGame.Rooms
 {
     public abstract class PlayRoom
     {
-        public abstract Location setUp();
-        public abstract void GenerateSpecialActions(SpecialAction action, Frame frame, FileReader reader, Location location, string item);
 
+        // The following methdos are overridden in each room
+        public abstract Location setUp();
+        public abstract void GenerateSpecialActions(SpecialAction action, Bag bag, FileReader reader, Location location, string item);
+
+        // The following methods are common for all rooms
         void describeLocation(Location location, Frame frame, FileReader reader)
         {
             if (location == null)
@@ -29,23 +32,20 @@ namespace NeuromaaniTextAdventureGame.Rooms
         void Hit()
         {
             string pam = @"
-______  ___ ___  ____ 
+ _____  ___ ___  ____ 
 | ___ \/ _ \|  \/  | |
 | |_/ / /_\ \ .  . | |
 |  __/|  _  | |\/| | |
 | |   | | | | |  | |_|
 \_|   \_| |_|_|  |_(_)";
 
-            string[] pamRivit = pam.Split(new string[] { "\n" }, StringSplitOptions.None);
+            string[] rows = pam.Split(new string[] { "\n" }, StringSplitOptions.None);
             var top = GeneralUtils.GetTopCursore();
 
-            Console.SetCursorPosition(4, top);
-
-            foreach (var item in pamRivit)
+            foreach (var row in rows)
             {
-                //kysyUudelleen = false;
                 Console.SetCursorPosition(4, top);
-                Console.WriteLine(item);
+                Console.WriteLine(row);
                 top++;
             }
 
@@ -83,11 +83,8 @@ ______  ___ ___  ____
         }
 
         // Play room
-        public void Play(Frame frame, FileReader reader)
+        public void Play(Frame frame, FileReader reader, Bag bag)
         {
-
-            // Rooms
-
             var location = setUp();
             describeLocation(location, frame, reader);
 
@@ -154,7 +151,7 @@ ______  ___ ___  ____
                 {
                     if (location.Item != null && command.Split(new string[] { " " }, StringSplitOptions.None)[1] == location.Item)
                     {
-                        frame.AddItemToBag(location.Item);
+                        bag.AddItemToBag(location.Item);
                         describeLocation(location, frame, reader);
                     }
 
@@ -203,16 +200,19 @@ ______  ___ ___  ____
                 {
                     SpecialAction specialAction = UserInput.ConvertActionCommandToEnum(command);
 
-                    if (specialAction == SpecialAction.UseItem && !string.IsNullOrEmpty(location.Item))
+                    if (specialAction == SpecialAction.UseItem)
                     {
                         string item = command.Split(new[] { ' ' }, 2, StringSplitOptions.RemoveEmptyEntries)[1].ToLower().Trim();
-                        GenerateSpecialActions(specialAction, frame, reader, location, item);
+                        if (bag.IsItemInBag(item))
+                        {
+                            GenerateSpecialActions(specialAction, bag, reader, location, item);
+                        }
                     }
 
                     if (specialAction == SpecialAction.Hit)
                     {
                         Hit();
-                        GenerateSpecialActions(specialAction, frame, reader, location, "");
+                        GenerateSpecialActions(specialAction, bag, reader, location, "");
                     }
                 }
 

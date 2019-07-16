@@ -1,6 +1,7 @@
 ﻿
 using NeuromaaniTextAdventureGame.FileManager;
 using NeuromaaniTextAdventureGame.Rooms;
+using System.Collections.Generic;
 
 namespace NeuromaaniTextAdventureGame.Game
 {
@@ -10,24 +11,26 @@ namespace NeuromaaniTextAdventureGame.Game
         public static Location currentRoom = new Location();
 
         // General objects
-        Frame _frame = new Frame();
-        FileReader _reader = new FileReader();
+        Frame _frame;
+        FileReader _reader;
+        Bag _bag;
 
         // Room objects
         BedRoom _bedRoom = new BedRoom();
 
 
-        public PlayGame(Frame frame, FileReader reader)
+        public PlayGame(Frame frame, FileReader reader, Bag bag)
         {
             _frame = frame;
             _reader = reader;
+            _bag = bag;
         }
 
         public void Game()
         {
             while (gameOn)
             {
-                _bedRoom.Play(_frame, _reader);
+                _bedRoom.Play(_frame, _reader, _bag);
                 gameOn = false;
             }
 
