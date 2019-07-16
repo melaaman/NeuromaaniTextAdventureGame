@@ -12,7 +12,8 @@ namespace NeuromaaniTextAdventureGame
             FileReader _reader = new FileReader();
             List<string> _items = new List<string>();
             Bag _bag = new Bag(_items);
-            Frame _frame = new Frame(_bag);
+            int _pointsCurrent = 0;
+            Frame _frame = new Frame(_bag, _pointsCurrent);
 
 
             PlayGame _game = new PlayGame(_frame, _reader, _bag);

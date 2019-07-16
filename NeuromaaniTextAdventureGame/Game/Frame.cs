@@ -13,9 +13,10 @@ namespace NeuromaaniTextAdventureGame.Game
         private int _pointsFull = 100;
         private Bag _bag;
 
-        public Frame(Bag bag)
+        public Frame(Bag bag, int pointsCurrent)
         {
             _bag = bag;
+            _pointsCurrent = pointsCurrent;
         }
         public void ClearAndDrawFrame()
         {
@@ -23,15 +24,13 @@ namespace NeuromaaniTextAdventureGame.Game
             DrawFrame();
         }
 
+        public void AddPoints(int points) => _pointsCurrent = GeneralUtils.AddUntilHundred(_pointsCurrent, points);
+
         public string GetPlayerName() => GeneralUtils.TruncateString(_playerName, 7);
 
         public void GivePlayerName(string playerName) {
             _playerName = playerName;
         }
-
-        public void AddPoints(int points) => GeneralUtils.AddUntilHundred(_pointsCurrent, points);
-
-        public void SubtractPoints(int points) => GeneralUtils.Subtract(_pointsCurrent, points);
         private void DrawFrame()
         {
 
@@ -44,7 +43,7 @@ namespace NeuromaaniTextAdventureGame.Game
             Console.SetCursorPosition(5, 1);
             Console.WriteLine("Nimi: {0}", GetPlayerName());
             Console.SetCursorPosition(22, 1);
-            Console.WriteLine("Tyylipisteet: {0}/{1}", _pointsCurrent, _pointsFull);
+            Console.WriteLine("Pisteet: {0}/{1}", _pointsCurrent, _pointsFull);
             Console.SetCursorPosition(50, 1);
             Console.WriteLine("Reppu: {0}", _bag.GetTruncatedVisibleBag());
             Console.ForegroundColor = ConsoleColor.Cyan;
