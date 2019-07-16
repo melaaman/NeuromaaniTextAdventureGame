@@ -12,7 +12,6 @@ namespace NeuromaaniTextAdventureGame.Rooms
     {
         private Dictionary<Direction, Location> _exits = new Dictionary<Direction, Location>();
 
-
         FileReader _reader = new FileReader();
         //public string Name { get; set; }
         public string Item { get; set; }
@@ -21,6 +20,7 @@ namespace NeuromaaniTextAdventureGame.Rooms
         public bool SpecialActions { get; set; }
         public string File { get; set; }
         public int ChapterIndex { get; set; }
+        public int InfoIndex { get; set; }
         public Direction CurrentPoint { get; set; }
         public Dictionary<Direction, Location> Exits { get { return _exits; } set { _exits = value; } }
 

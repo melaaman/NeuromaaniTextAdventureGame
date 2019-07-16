@@ -20,10 +20,18 @@ namespace NeuromaaniTextAdventureGame.Tests.Game.Tests
         }
 
         [TestCase("apua")]
-        [TestCase("ÖöÖ ")]
+        [TestCase("Apua  ")]
         public void isCommandAskHelp_CorrectInput_ReturnTrue(string input)
         {
             var result = UserInput.IsCommandAskHelp(input);
+            Assert.AreEqual(true, result);
+        }
+
+        [TestCase(" öö")]
+        [TestCase("ÖöÖ ")]
+        public void isCommandAskInformation_CorrectInput_ReturnTrue(string input)
+        {
+            var result = UserInput.IsCommandAskInformation(input);
             Assert.AreEqual(true, result);
         }
 

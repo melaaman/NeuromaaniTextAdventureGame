@@ -13,6 +13,11 @@ namespace NeuromaaniTextAdventureGame.Rooms
         public abstract Location setUp();
         public abstract void GenerateSpecialActions(SpecialAction action, Bag bag, FileReader reader, Location location, string item);
 
+        public void GetMoreInformation(string file, int chapterIndex, FileReader reader)
+        {
+            reader.DisplayTextFromFile(file, chapterIndex, GeneralUtils.GetTopCursore());
+        }
+
         // The following methods are common for all rooms
         void describeLocation(Location location, Frame frame, FileReader reader)
         {
@@ -192,6 +197,13 @@ namespace NeuromaaniTextAdventureGame.Rooms
                 else if (UserInput.IsCommandAskHelp(command))
                 {
                     GenerateAnswer("Ohjeita", reader);
+                }
+
+                // Ask more information 
+
+                else if (UserInput.IsCommandAskInformation(command))
+                {
+                    GetMoreInformation(location.File, location.InfoIndex, reader);
                 }
 
                 // Special Actions
