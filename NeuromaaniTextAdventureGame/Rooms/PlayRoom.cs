@@ -206,14 +206,12 @@ namespace NeuromaaniTextAdventureGame.Rooms
                         if (bag.IsItemInBag(item))
                         {
                             GenerateSpecialActions(specialAction, bag, reader, location, item);
-                            frame.SubtractPoints(10);
                         }
                     }
 
                     if (specialAction == SpecialAction.Hit)
                     {
                         Hit();
-                        frame.AddPoints(20);
                         GenerateSpecialActions(specialAction, bag, reader, location, "");
                     }
                 }
