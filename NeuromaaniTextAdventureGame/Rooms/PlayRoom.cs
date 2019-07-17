@@ -115,24 +115,19 @@ namespace NeuromaaniTextAdventureGame.Rooms
                         location = destination;
                         describeLocation(location, frame, reader);
                         PlayGame.currentRoom = location;
-
-                        if (location.ExitSpace)
-                        {
-                            Console.SetCursorPosition(4, GeneralUtils.GetTopCursore());
-                            var answer = Regex.Replace(Console.ReadLine().ToLower().Trim(), "[?!]", "");
-
-                            if (answer == "astu sisään")
-                            {
-                                return;
-                            }
-
-                        };
                     }
 
                     else
                     {
                         GenerateAnswer("Et pääse sinne.", reader);
                     }
+                }
+
+                // Go out of room
+
+                else if (location.ExitSpace && command == "astu sisään")
+                {
+                    return;
                 }
 
                 // Take an item
