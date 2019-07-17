@@ -21,17 +21,21 @@ namespace NeuromaaniTextAdventureGame.Tests.Game.Tests
 
         [TestCase("apua")]
         [TestCase("Apua  ")]
+        [TestCase(" öö")]
+        [TestCase("ÖöÖ ")]
         public void isCommandAskHelp_CorrectInput_ReturnTrue(string input)
         {
             var result = UserInput.IsCommandAskHelp(input);
             Assert.AreEqual(true, result);
         }
 
-        [TestCase(" öö")]
-        [TestCase("ÖöÖ ")]
+        [TestCase("alaviite")]
+        [TestCase("Alaviite ")]
+        [TestCase("av ")]
+        [TestCase("AV ")]
         public void isCommandAskInformation_CorrectInput_ReturnTrue(string input)
         {
-            var result = UserInput.IsCommandAskInformation(input);
+            var result = UserInput.IsCommandGetFootnote(input);
             Assert.AreEqual(true, result);
         }
 

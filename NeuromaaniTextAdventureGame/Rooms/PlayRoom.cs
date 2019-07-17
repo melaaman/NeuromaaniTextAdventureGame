@@ -118,27 +118,12 @@ namespace NeuromaaniTextAdventureGame.Rooms
 
                         if (location.ExitSpace)
                         {
-                            bool exitLoop = false;
+                            Console.SetCursorPosition(4, GeneralUtils.GetTopCursore());
+                            var answer = Regex.Replace(Console.ReadLine().ToLower().Trim(), "[?!]", "");
 
-                            while (!exitLoop)
+                            if (answer == "astu sisään")
                             {
-                                Console.SetCursorPosition(4, GeneralUtils.GetTopCursore());
-                                var answer = Regex.Replace(Console.ReadLine().ToLower().Trim(), "[?!]", "");
-
-                                if (answer == "kyllä")
-                                {
-                                    return;
-                                }
-
-                                else if (answer == "ei")
-                                {
-                                    exitLoop = true;
-                                }
-
-                                else
-                                {
-                                    GenerateAnswer("Kyllä vai ei?", reader);
-                                }
+                                return;
                             }
 
                         };
@@ -201,9 +186,17 @@ namespace NeuromaaniTextAdventureGame.Rooms
 
                 // Ask more information 
 
-                else if (UserInput.IsCommandAskInformation(command))
+                else if (UserInput.IsCommandGetFootnote(command))
                 {
-                    GetMoreInformation(location.File, location.InfoIndex, reader);
+                    // If the location doesn't have InfoIndex, the index is 0 by default.
+                    if (location.InfoIndex == 0)
+                    {
+                        GenerateAnswer("Ei lisätietoa", reader);
+                    }
+                    else
+                    {
+                        GetMoreInformation(location.File, location.InfoIndex, reader);
+                    }
                 }
 
                 // Special Actions

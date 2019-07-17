@@ -11,6 +11,7 @@ namespace NeuromaaniTextAdventureGame.Rooms
         {
             File = "bedroom.txt",
             ChapterIndex = 0,
+            InfoIndex = 4,
             CurrentPoint = Direction.Default
         };
 
@@ -26,7 +27,6 @@ namespace NeuromaaniTextAdventureGame.Rooms
         {
             File = "bedroom.txt",
             ChapterIndex = 3,
-            InfoIndex = 4,
             CurrentPoint = Direction.West
         };
 

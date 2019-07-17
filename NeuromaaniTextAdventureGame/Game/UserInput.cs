@@ -25,7 +25,7 @@ namespace NeuromaaniTextAdventureGame.Game
     {
         Hit,
         UseItem,
-        AskInformation,
+        GetFootnote,
         Default
     }
     public class UserInput
@@ -40,8 +40,8 @@ namespace NeuromaaniTextAdventureGame.Game
         public static string[] moveWest = { "länteen", "mene länteen", "liiku länteen" };
         public static string[] directionCommands = moveNorth.Concat(moveEast).Concat(moveSouth).Concat(moveWest).ToArray();
 
-        public static string[] askHelp = { "apua" };
-        public static string[] askInformation = { "öö", "ööö", "öööö" };
+        public static string[] askHelp = { "apua", "öö", "ööö", "öööö" };
+        public static string[] askInformation = { "alaviite", "av" };
 
         public static string[] sayHello = { "hei", "moi", "terve", "haloo", "morjes", "moro" };
         public static string[] sayStupid = { "hölmö", "idiootti", "tyhmä" };
@@ -53,7 +53,7 @@ namespace NeuromaaniTextAdventureGame.Game
         // Functions to check that user inputs are correct
         public static bool IsCommandDirection(string command) => directionCommands.Contains(command.ToLower().Trim()) ? true : false;
         public static bool IsCommandAskHelp(string command) => askHelp.Contains(command.ToLower().Trim()) ? true : false;
-        public static bool IsCommandAskInformation(string command) => askInformation.Contains(command.ToLower().Trim()) ? true : false;
+        public static bool IsCommandGetFootnote(string command) => askInformation.Contains(command.ToLower().Trim()) ? true : false;
         public static bool IsCommandTakeItem(string command) => (command.Split(new[] { ' ' }, 2, StringSplitOptions.None)[0].ToLower() == "ota" &&
             command.Split(' ').Length > 1) ? true : false;
         public static bool IsCommandSay(string command)
@@ -144,9 +144,9 @@ namespace NeuromaaniTextAdventureGame.Game
                 return SpecialAction.Hit;
             }
 
-            if (IsCommandAskInformation(trimmedCommand))
+            if (IsCommandGetFootnote(trimmedCommand))
             {
-                return SpecialAction.AskInformation;
+                return SpecialAction.GetFootnote;
             }
             return SpecialAction.Default;
         }
