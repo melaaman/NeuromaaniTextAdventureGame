@@ -176,7 +176,7 @@ namespace NeuromaaniTextAdventureGame.Rooms
 
                 else if (UserInput.IsCommandAskHelp(command))
                 {
-                    GenerateAnswer("Ohjeita", reader);
+                    reader.DisplayTextFromFile("ohjeita.txt", 0, GeneralUtils.GetTopCursore());
                 }
 
                 // Ask more information 

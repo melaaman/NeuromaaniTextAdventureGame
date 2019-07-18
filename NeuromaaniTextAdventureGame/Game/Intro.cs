@@ -118,6 +118,8 @@ namespace NeuromaaniTextAdventureGame.Game
             }
 
             Console.WriteLine("Anna käsky \"Aloita\"");
+            Console.CursorLeft = 4;
+            Console.WriteLine("(HUOM! Jos et pelin aikana tiedä, mitä tehdä, kirjoita \"Apua\")");
 
             while (true)
             {

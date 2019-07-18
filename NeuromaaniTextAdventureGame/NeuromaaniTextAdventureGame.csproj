@@ -80,11 +80,13 @@
     <Compile Include="Game\IBag.cs" />
     <Compile Include="Game\Intro.cs" />
     <Compile Include="Rooms\BedRoom.cs" />
+    <Compile Include="Rooms\LivingRoom.cs" />
     <Compile Include="Rooms\PlayRoom.cs" />
     <Compile Include="Game\UserInput.cs" />
     <Compile Include="Rooms\Location.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rooms\WC.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -92,11 +94,13 @@
   <ItemGroup>
     <Content Include="Files\bedroom.txt" />
     <Content Include="Files\intro.txt" />
+    <Content Include="Files\livingRoom.txt" />
     <Content Include="Files\ohjeita.txt" />
     <Content Include="Files\start.txt" />
     <Content Include="Files\test1.txt" />
     <Content Include="Files\Test2.txt" />
     <Content Include="Files\Test3.txt" />
+    <Content Include="Files\WC.txt" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">

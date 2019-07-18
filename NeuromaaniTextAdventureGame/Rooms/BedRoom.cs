@@ -30,7 +30,7 @@ namespace NeuromaaniTextAdventureGame.Rooms
             CurrentPoint = Direction.West
         };
 
-        Location doorWC = new Location()
+        public Location doorWC = new Location()
         {
             File = "bedroom.txt",
             ChapterIndex = 5,
@@ -38,7 +38,7 @@ namespace NeuromaaniTextAdventureGame.Rooms
             ExitSpace = true,
         };
 
-        Location doorLivingRoom = new Location()
+        public Location doorLivingRoom = new Location()
         {
             File = "bedroom.txt",
             ChapterIndex = 6,

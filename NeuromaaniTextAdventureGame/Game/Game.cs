@@ -1,7 +1,7 @@
 ﻿
 using NeuromaaniTextAdventureGame.FileManager;
 using NeuromaaniTextAdventureGame.Rooms;
-using System.Collections.Generic;
+using System;
 
 namespace NeuromaaniTextAdventureGame.Game
 {
@@ -17,6 +17,8 @@ namespace NeuromaaniTextAdventureGame.Game
 
         // Room objects
         BedRoom _bedRoom = new BedRoom();
+        WC _wc = new WC();
+        LivingRoom _livingRoom = new LivingRoom();
 
 
         public PlayGame(Frame frame, FileReader reader, Bag bag)
@@ -31,10 +33,14 @@ namespace NeuromaaniTextAdventureGame.Game
             while (gameOn)
             {
                 _bedRoom.Play(_frame, _reader, _bag);
+                if (currentRoom == _bedRoom.doorWC) _wc.Play(_frame, _reader, _bag);
+                if (currentRoom == _bedRoom.doorLivingRoom) _livingRoom.Play(_frame, _reader, _bag);
                 gameOn = false;
             }
 
-            System.Console.WriteLine("Hei hei");
+            _frame.ClearAndDrawFrame();
+            GeneralUtils.GetTopCursore();
+            Console.WriteLine("GAME OVER");
         }
 
     }
