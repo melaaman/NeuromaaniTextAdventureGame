@@ -117,17 +117,16 @@ namespace NeuromaaniTextAdventureGame.Game
                 i++;
             }
 
-            Console.WriteLine("Anna käsky \"Aloita\"");
-            Console.CursorLeft = 4;
-            Console.WriteLine("(HUOM! Jos et pelin aikana tiedä, mitä tehdä, kirjoita \"Apua\")");
-
             while (true)
             {
-                Console.SetCursorPosition(4, 20);
+                //Console.SetCursorPosition(4, 20);
+                Console.CursorLeft = 4;
                 if (Console.ReadLine().ToLower().Trim() == "aloita") return;
                 GiveInstructions();
                 Console.SetCursorPosition(4, 18);
                 Console.WriteLine("Anna käsky \"Aloita\"");
+                Console.CursorLeft = 4;
+                Console.WriteLine("(HUOM! Jos et pelin aikana tiedä, mitä tehdä, kirjoita \"Apua\")");
 
             }
         }
