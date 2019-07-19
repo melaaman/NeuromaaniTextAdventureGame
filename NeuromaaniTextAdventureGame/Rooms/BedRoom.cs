@@ -11,29 +11,32 @@ namespace NeuromaaniTextAdventureGame.Rooms
         {
             File = "bedroom.txt",
             ChapterIndex = 0,
-            InfoIndex = 4,
+            InfoIndex = 1,
             CurrentPoint = Direction.Default
         };
 
         Location bed = new Location()
         {
             File = "bedroom.txt",
-            ChapterIndex = 1,
-            InfoIndex = 2,
-            CurrentPoint = Direction.North
+            ChapterIndex = 2,
+            InfoIndex = 3,
+            CurrentPoint = Direction.North,
+            Person = "Tyyppi",
+            Item = "tavara"
         };
 
         Location wallWithPoster = new Location()
         {
             File = "bedroom.txt",
-            ChapterIndex = 3,
+            ChapterIndex = 4,
+            InfoIndex = 5,
             CurrentPoint = Direction.West
         };
 
         public Location doorWC = new Location()
         {
             File = "bedroom.txt",
-            ChapterIndex = 5,
+            ChapterIndex = 6,
             CurrentPoint = Direction.East,
             ExitSpace = true,
         };
@@ -41,7 +44,7 @@ namespace NeuromaaniTextAdventureGame.Rooms
         public Location doorLivingRoom = new Location()
         {
             File = "bedroom.txt",
-            ChapterIndex = 6,
+            ChapterIndex = 7,
             CurrentPoint = Direction.South,
             ExitSpace = true,
         };

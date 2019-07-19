@@ -17,7 +17,6 @@ namespace NeuromaaniTextAdventureGame.Rooms
         public string Item { get; set; }
         public string Person { get; set; }
         public bool ExitSpace { get; set; }
-        public bool SpecialActions { get; set; }
         public string File { get; set; }
         public int ChapterIndex { get; set; }
         public int InfoIndex { get; set; }

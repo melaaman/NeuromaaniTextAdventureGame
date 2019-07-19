@@ -3,4 +3,4 @@
 "Sano [jotain]"
 "Ota [tavara]"
 "Käytä [tavaraa]"
-"Alaviite/av"
+"Alaviite/alaviitteet/av"

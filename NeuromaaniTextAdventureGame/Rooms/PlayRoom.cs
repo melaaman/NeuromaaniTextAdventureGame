@@ -13,12 +13,12 @@ namespace NeuromaaniTextAdventureGame.Rooms
         public abstract Location setUp();
         public abstract void GenerateSpecialActions(SpecialAction action, Bag bag, FileReader reader, Location location, string item);
 
-        public void GetMoreInformation(string file, int chapterIndex, FileReader reader)
+        // The following methods are common for all rooms
+        void GetFootnote(string file, int chapterIndex, FileReader reader)
         {
             reader.DisplayTextFromFile(file, chapterIndex, GeneralUtils.GetTopCursore());
         }
 
-        // The following methods are common for all rooms
         void describeLocation(Location location, Frame frame, FileReader reader)
         {
             if (location == null)
@@ -57,27 +57,42 @@ namespace NeuromaaniTextAdventureGame.Rooms
             Thread.Sleep(500);
         }
 
-        void GenerateAnswerFromEnum(Say say, string person, FileReader reader)
+        void GenerateAnswerFromSayEnum(Say say, string person, FileReader reader)
         {
-
-            if (say == Say.Hello)
+            switch (say)
             {
-                string[] answers = { "No hei vaan", "Terve", "Hej" };
-                GenerateAnswer(person + " sanoo: " + GenerateRandomAnswer(answers), reader);
+                case Say.Hello:
+                    string[] answersToHello = { "No hei vaan", "Terve", "Hej" };
+                    GenerateAnswer(person + " sanoo: " + GenerateRandomAnswer(answersToHello), reader);
+                    return;
+                case Say.HowAreYou:
+                    string[] answersToHowAreYou = { "Ihan ok", "Siinähän se" };
+                    GenerateAnswer(person + " sanoo: " + GenerateRandomAnswer(answersToHowAreYou), reader);
+                    return;
+                case Say.Stupid:
+                    string[] answersToCallingNames = { "Se oli ikävästi sanottu.", "????" };
+                    GenerateAnswer(person + " sanoo: " + GenerateRandomAnswer(answersToCallingNames), reader);
+                    return;
+                default:
+                    return;
             }
+        }
 
-            if (say == Say.HowAreYou)
+        void GenerateResponseToSpecialAction(SpecialAction specialAction, string command, Bag bag, FileReader reader, Location location)
+        {
+            switch (specialAction)
             {
-                string[] answers = { "Ihan ok", "Siinähän se" };
-                GenerateAnswer(person + " sanoo: " + GenerateRandomAnswer(answers), reader);
+                case SpecialAction.UseItem:
+                    string item = command.Split(new[] { ' ' }, 2, StringSplitOptions.RemoveEmptyEntries)[1].ToLower().Trim();
+                    if (bag.IsItemInBag(item)) GenerateSpecialActions(specialAction, bag, reader, location, item);
+                    return;
+                case SpecialAction.Hit:
+                    Hit();
+                    GenerateSpecialActions(specialAction, bag, reader, location, "");
+                    return;
+                default:
+                    return;
             }
-
-            if (say == Say.Stupid)
-            {
-                string[] answers = { "Se oli ikävästi sanottu.", "????" };
-                GenerateAnswer(person + " sanoo: " + GenerateRandomAnswer(answers), reader);
-            }
-
         }
 
         public static string GenerateRandomAnswer(string[] answers)
@@ -154,20 +169,7 @@ namespace NeuromaaniTextAdventureGame.Rooms
 
                     if (location.Person != null)
                     {
-                        if (commandEnum == Say.Hello)
-                        {
-                            GenerateAnswerFromEnum(commandEnum, location.Person, reader);
-                        }
-
-                        if (commandEnum == Say.Stupid)
-                        {
-                            GenerateAnswerFromEnum(commandEnum, location.Person, reader);
-                        }
-
-                        if (commandEnum == Say.HowAreYou)
-                        {
-                            GenerateAnswerFromEnum(commandEnum, location.Person, reader);
-                        }
+                        GenerateAnswerFromSayEnum(commandEnum, location.Person, reader);
                     }
 
                 }
@@ -186,34 +188,22 @@ namespace NeuromaaniTextAdventureGame.Rooms
                     // If the location doesn't have InfoIndex, the index is 0 by default.
                     if (location.InfoIndex == 0)
                     {
-                        GenerateAnswer("Ei lisätietoa", reader);
+                        GenerateAnswer("Ei alaviitteitä", reader);
                     }
                     else
                     {
-                        GetMoreInformation(location.File, location.InfoIndex, reader);
+                        GetFootnote(location.File, location.InfoIndex, reader);
                     }
                 }
 
                 // Special Actions
 
-                else if (UserInput.IsCommandSpecialAction(command) && location.SpecialActions)
+                else if (UserInput.IsCommandSpecialAction(command))
                 {
                     SpecialAction specialAction = UserInput.ConvertActionCommandToEnum(command);
 
-                    if (specialAction == SpecialAction.UseItem)
-                    {
-                        string item = command.Split(new[] { ' ' }, 2, StringSplitOptions.RemoveEmptyEntries)[1].ToLower().Trim();
-                        if (bag.IsItemInBag(item))
-                        {
-                            GenerateSpecialActions(specialAction, bag, reader, location, item);
-                        }
-                    }
+                    GenerateResponseToSpecialAction(specialAction, command, bag, reader, location);
 
-                    if (specialAction == SpecialAction.Hit)
-                    {
-                        Hit();
-                        GenerateSpecialActions(specialAction, bag, reader, location, "");
-                    }
                 }
 
                 // Stop playing

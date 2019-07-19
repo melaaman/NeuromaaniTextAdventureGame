@@ -41,7 +41,7 @@ namespace NeuromaaniTextAdventureGame.Game
         public static string[] directionCommands = moveNorth.Concat(moveEast).Concat(moveSouth).Concat(moveWest).ToArray();
 
         public static string[] askHelp = { "apua", "öö", "ööö", "öööö" };
-        public static string[] askInformation = { "alaviite", "av" };
+        public static string[] askInformation = { "alaviite", "alaviitteet", "av" };
 
         public static string[] sayHello = { "hei", "moi", "terve", "haloo", "morjes", "moro" };
         public static string[] sayStupid = { "hölmö", "idiootti", "tyhmä" };

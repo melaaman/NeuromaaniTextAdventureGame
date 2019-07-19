@@ -14,7 +14,6 @@ namespace NeuromaaniTextAdventureGame.Rooms
         {
             File = "livingRoom.txt",
             ChapterIndex = 0,
-            InfoIndex = 4,
             CurrentPoint = Direction.Default
         };
         public override Location setUp()
