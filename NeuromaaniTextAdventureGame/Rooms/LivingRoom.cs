@@ -14,13 +14,13 @@ namespace NeuromaaniTextAdventureGame.Rooms
         {
             File = "livingRoom.txt",
             ChapterIndex = 0,
-            CurrentPoint = Direction.Default
+            CurrentPoint = Command.Default
         };
         public override Location setUp()
         {
             return start;
         }
-        public override void GenerateSpecialActions(SpecialAction action, Bag bag, FileReader reader, Location location, string item)
+        public override void GenerateSpecialActions(Command action, Bag bag, FileReader reader, Location location, string item)
         {
             throw new NotImplementedException();
         }

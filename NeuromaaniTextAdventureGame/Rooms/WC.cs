@@ -16,7 +16,7 @@ namespace NeuromaaniTextAdventureGame.Rooms
             File = "WC.txt",
             ChapterIndex = 0,
             InfoIndex = 1,
-            CurrentPoint = Direction.Default
+            CurrentPoint = Command.Default
         };
 
         public override Location setUp()
@@ -24,7 +24,7 @@ namespace NeuromaaniTextAdventureGame.Rooms
             return start;
         }
 
-        public override void GenerateSpecialActions(SpecialAction action, Bag bag, FileReader reader, Location location, string item)
+        public override void GenerateSpecialActions(Command action, Bag bag, FileReader reader, Location location, string item)
         {
             throw new NotImplementedException();
         }

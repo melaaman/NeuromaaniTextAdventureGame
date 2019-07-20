@@ -10,9 +10,6 @@ namespace NeuromaaniTextAdventureGame.FileManager
     public class FileReader
     {
         FileVerifier _verifier = new FileVerifier();
-
-        // Display text 
-
         public void DisplayTextFromFile(string fileName, int chapterIndex, int top, int left = 4)
         {
             var text = GetTextChapterFromFile(fileName, chapterIndex);
@@ -34,10 +31,6 @@ namespace NeuromaaniTextAdventureGame.FileManager
                 top++;
             });
         }
-
-
-        // Helper functions:
-
         public string GetTextChapterFromFile(string fileName, int chapterIndex)
         {
             string AllTextFromFile = ReadToEndAndClose(fileName).Trim();
@@ -59,7 +52,6 @@ namespace NeuromaaniTextAdventureGame.FileManager
             }
 
         }
-
         public string[] ConvertTextToArray(string text) => !string.IsNullOrEmpty(text) ? text.Split(new string[] { "\r\n" }, StringSplitOptions.None)
             : throw new Exception("Empty text file!");
     }

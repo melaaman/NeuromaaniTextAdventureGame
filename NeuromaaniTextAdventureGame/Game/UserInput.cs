@@ -1,44 +1,37 @@
 ﻿using NeuromaaniTextAdventureGame.FileManager;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 
 namespace NeuromaaniTextAdventureGame.Game
 {
-    public enum Direction
+    public enum Command
     {
         North,
         South,
         West,
         East,
-        Default
-
-    }
-    public enum Say
-    {
         Hello,
         Stupid,
         HowAreYou,
-        Default
-    }
-    public enum SpecialAction
-    {
         Hit,
         UseItem,
+        TakeItem,
         GetFootnote,
+        AskHelp,
+        ExitRoom,
+        ExitGame,
         Default
     }
     public class UserInput
     {
         FileReader _reader = new FileReader();
 
-        // User input possibilities
-
         public static string[] moveNorth = { "pohjoiseen", "mene pohjoiseen", "liiku pohjoiseen" };
         public static string[] moveEast = { "itään", "mene itään", "liiku itään" };
         public static string[] moveSouth = { "etelään", "mene etelään", "liiku etelään" };
         public static string[] moveWest = { "länteen", "mene länteen", "liiku länteen" };
-        public static string[] directionCommands = moveNorth.Concat(moveEast).Concat(moveSouth).Concat(moveWest).ToArray();
 
         public static string[] askHelp = { "apua", "öö", "ööö", "öööö" };
         public static string[] askInformation = { "alaviite", "alaviitteet", "av" };
@@ -46,31 +39,53 @@ namespace NeuromaaniTextAdventureGame.Game
         public static string[] sayHello = { "hei", "moi", "terve", "haloo", "morjes", "moro" };
         public static string[] sayStupid = { "hölmö", "idiootti", "tyhmä" };
         public static string[] askHowAreYou = { "mitä kuuluu", "miten menee" };
-        public static string[] sayCommands = sayHello.Concat(sayStupid).Concat(askHowAreYou).ToArray();
-
-        public static string[] specialActionCommands = { "lyö" };
-
-        // Functions to check that user inputs are correct
-        public static bool IsCommandDirection(string command) => directionCommands.Contains(command.ToLower().Trim()) ? true : false;
+        public static string[] exitRoomCommands = { "astu sisään", "eteenpäin", "mene eteenpäin" };
+        public static string[] exitGameCommands = { "lopeta" };
+        public static bool IsCommandMoveNorth(string command) => moveNorth.Contains(command.ToLower().Trim()) ? true : false;
+        public static bool IsCommandMoveEast(string command) => moveEast.Contains(command.ToLower().Trim()) ? true : false;
+        public static bool IsCommandMoveSouth(string command) => moveSouth.Contains(command.ToLower().Trim()) ? true : false;
+        public static bool IsCommandMoveWest(string command) => moveWest.Contains(command.ToLower().Trim()) ? true : false;
         public static bool IsCommandAskHelp(string command) => askHelp.Contains(command.ToLower().Trim()) ? true : false;
         public static bool IsCommandGetFootnote(string command) => askInformation.Contains(command.ToLower().Trim()) ? true : false;
+        public static bool IsCommandHit(string command) => !string.IsNullOrEmpty(command) && command.ToLower().Trim() == "lyö" ? true : false;
+        public static bool IsCommandExitRoom(string command) => !string.IsNullOrEmpty(command) && exitRoomCommands.Contains(command.ToLower().Trim()) ? true : false;
+        public static bool IsCommandExitGame(string command) => !string.IsNullOrEmpty(command) && exitGameCommands.Contains(command.ToLower().Trim()) ? true : false;
         public static bool IsCommandTakeItem(string command) => (command.Split(new[] { ' ' }, 2, StringSplitOptions.None)[0].ToLower() == "ota" &&
             command.Split(' ').Length > 1) ? true : false;
-        public static bool IsCommandSay(string command)
+        public static bool IsCommandSayHello(string command)
         {
-            if (!string.IsNullOrEmpty(command) && command.Contains(" "))
+            if (command.Contains(" "))
             {
                 string[] splitCommand = command.Split(new[] { ' ' }, 2, StringSplitOptions.RemoveEmptyEntries);
-                return splitCommand[0].ToLower() == "sano" && sayCommands.Contains(splitCommand[1].ToLower().Trim()) ? true : false;
+                return splitCommand[0].ToLower() == "sano" && sayHello.Contains(splitCommand[1].ToLower().Trim()) ? true : false;
+            }
+
+            return false;
+        }
+        public static bool IsCommandSayHowAreYou(string command)
+        {
+            if (command.Contains(" "))
+            {
+                string[] splitCommand = command.Split(new[] { ' ' }, 2, StringSplitOptions.RemoveEmptyEntries);
+                return splitCommand[0].ToLower() == "sano" && askHowAreYou.Contains(splitCommand[1].ToLower().Trim()) ? true : false;
             }
 
             return false;
         }
 
-        // Use item is part of special actions
+        public static bool IsCommandSayStupid(string command)
+        {
+            if (command.Contains(" "))
+            {
+                string[] splitCommand = command.Split(new[] { ' ' }, 2, StringSplitOptions.RemoveEmptyEntries);
+                return splitCommand[0].ToLower() == "sano" && sayStupid.Contains(splitCommand[1].ToLower().Trim()) ? true : false;
+            }
+
+            return false;
+        }
         public static bool IsCommandUseItem(string command)
         {
-            if (!string.IsNullOrEmpty(command) && command.Contains(" "))
+            if (command.Contains(" "))
             {
                 string[] splitCommand = command.Split(new[] { ' ' }, 2, StringSplitOptions.RemoveEmptyEntries);
                 return splitCommand[0].ToLower().Trim() == "käytä" ? true : false;
@@ -78,77 +93,82 @@ namespace NeuromaaniTextAdventureGame.Game
 
             return false;
         }
-
-        public static bool IsCommandHit(string command) => !string.IsNullOrEmpty(command) && command.ToLower().Trim() == "lyö" ? true : false;
-        public static bool IsCommandSpecialAction(string command) => IsCommandHit(command) || IsCommandUseItem(command) ? true : false;
-        
-        // Functions that convert user inputs to Enums
-
-        public static Direction ConvertCommandToDirectionEnum(string command)
+        public static Command ConvertCommandToEnum(string command)
         {
-            if (moveEast.Contains(command))
+            if (IsCommandMoveNorth(command))
             {
-                return Direction.East;
+                return Command.North;
             }
 
-            if (moveWest.Contains(command))
+            if (IsCommandMoveEast(command))
             {
-                return Direction.West;
+                return Command.East;
             }
 
-            if (moveSouth.Contains(command))
+            if (IsCommandMoveSouth(command))
             {
-                return Direction.South;
+                return Command.South;
             }
 
-            if (moveNorth.Contains(command))
+            if (IsCommandMoveWest(command))
             {
-                return Direction.North;
+                return Command.West;
             }
 
-            return Direction.Default;
-        }
-
-        public static Say ConvertGeneralSayCommandEnum(string command)
-        {
-            var phrase = command.Split(new string[] { " " }, 2, StringSplitOptions.RemoveEmptyEntries)[1].ToLower().Trim();
-
-            if (sayHello.Contains(phrase))
+            if (IsCommandSayHello(command))
             {
-                return Say.Hello;
+                return Command.Hello;
             }
 
-            if (sayStupid.Contains(phrase))
+            if (IsCommandSayStupid(command))
             {
-                return Say.Stupid;
+                return Command.Stupid;
             }
 
-            if (askHowAreYou.Contains(phrase))
+            if (IsCommandSayHowAreYou(command))
             {
-                return Say.HowAreYou;
+                return Command.HowAreYou;
             }
 
-            return Say.Default;
-        }
-        public static SpecialAction ConvertActionCommandToEnum(string command)
-        {
-            var trimmedCommand = command.ToLower().Trim();
-
-            if (IsCommandUseItem(trimmedCommand))
+            if (IsCommandUseItem(command))
             {
-                return SpecialAction.UseItem;
+                return Command.UseItem;
             }
 
-            if (IsCommandHit(trimmedCommand))
+            if (IsCommandHit(command))
             {
-                return SpecialAction.Hit;
+                return Command.Hit;
             }
 
-            if (IsCommandGetFootnote(trimmedCommand))
+            if (IsCommandGetFootnote(command))
             {
-                return SpecialAction.GetFootnote;
+                return Command.GetFootnote;
             }
-            return SpecialAction.Default;
+
+            if (IsCommandAskHelp(command))
+            {
+                return Command.AskHelp;
+            }
+
+            if (IsCommandTakeItem(command))
+            {
+                return Command.TakeItem;
+            }
+
+            if (IsCommandExitRoom(command))
+            {
+                return Command.ExitRoom;
+            }
+
+            if (IsCommandExitGame(command))
+            {
+                return Command.ExitGame;
+            }
+
+            else
+            {
+                return Command.Default;
+            }
         }
 
     }

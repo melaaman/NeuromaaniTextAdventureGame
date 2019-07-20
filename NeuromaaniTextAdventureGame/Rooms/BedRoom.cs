@@ -12,7 +12,7 @@ namespace NeuromaaniTextAdventureGame.Rooms
             File = "bedroom.txt",
             ChapterIndex = 0,
             InfoIndex = 1,
-            CurrentPoint = Direction.Default
+            CurrentPoint = Command.Default
         };
 
         Location bed = new Location()
@@ -20,7 +20,7 @@ namespace NeuromaaniTextAdventureGame.Rooms
             File = "bedroom.txt",
             ChapterIndex = 2,
             InfoIndex = 3,
-            CurrentPoint = Direction.North,
+            CurrentPoint = Command.North,
             Person = "Tyyppi",
             Item = "tavara"
         };
@@ -30,82 +30,82 @@ namespace NeuromaaniTextAdventureGame.Rooms
             File = "bedroom.txt",
             ChapterIndex = 4,
             InfoIndex = 5,
-            CurrentPoint = Direction.West
+            CurrentPoint = Command.West
         };
 
         public Location doorWC = new Location()
         {
             File = "bedroom.txt",
             ChapterIndex = 6,
-            CurrentPoint = Direction.East,
-            ExitSpace = true,
+            CurrentPoint = Command.East,
+            ExitRoom = true
         };
 
         public Location doorLivingRoom = new Location()
         {
             File = "bedroom.txt",
             ChapterIndex = 7,
-            CurrentPoint = Direction.South,
-            ExitSpace = true,
+            CurrentPoint = Command.South,
+            ExitRoom = true
         };
 
         public override Location setUp()
         {
-            start.Exits.Add(Direction.East, doorWC);
-            start.Exits.Add(Direction.North, bed);
-            start.Exits.Add(Direction.South, doorLivingRoom);
-            start.Exits.Add(Direction.West, wallWithPoster);
+            start.Exits.Add(Command.East, doorWC);
+            start.Exits.Add(Command.North, bed);
+            start.Exits.Add(Command.South, doorLivingRoom);
+            start.Exits.Add(Command.West, wallWithPoster);
 
-            bed.Exits.Add(Direction.East, doorWC);
-            bed.Exits.Add(Direction.South, doorLivingRoom);
-            bed.Exits.Add(Direction.West, wallWithPoster);
+            bed.Exits.Add(Command.East, doorWC);
+            bed.Exits.Add(Command.South, doorLivingRoom);
+            bed.Exits.Add(Command.West, wallWithPoster);
 
-            doorWC.Exits.Add(Direction.North, bed);
-            doorWC.Exits.Add(Direction.South, doorLivingRoom);
-            doorWC.Exits.Add(Direction.West, wallWithPoster);
+            doorWC.Exits.Add(Command.North, bed);
+            doorWC.Exits.Add(Command.South, doorLivingRoom);
+            doorWC.Exits.Add(Command.West, wallWithPoster);
 
-            wallWithPoster.Exits.Add(Direction.North, bed);
-            wallWithPoster.Exits.Add(Direction.South, doorLivingRoom);
-            wallWithPoster.Exits.Add(Direction.East, doorWC);
+            wallWithPoster.Exits.Add(Command.North, bed);
+            wallWithPoster.Exits.Add(Command.South, doorLivingRoom);
+            wallWithPoster.Exits.Add(Command.East, doorWC);
 
-            doorLivingRoom.Exits.Add(Direction.North, bed);
-            doorLivingRoom.Exits.Add(Direction.East, doorWC);
-            doorLivingRoom.Exits.Add(Direction.West, wallWithPoster);
+            doorLivingRoom.Exits.Add(Command.North, bed);
+            doorLivingRoom.Exits.Add(Command.East, doorWC);
+            doorLivingRoom.Exits.Add(Command.West, wallWithPoster);
 
 
             return start;
 
         }
 
-        public override void GenerateSpecialActions(SpecialAction action, Bag bag, FileReader reader, Location location, string item)
+        public override void GenerateSpecialActions(Command action, Bag bag, FileReader reader, Location location, string item)
         {
             try
             {
-                if (action == SpecialAction.UseItem && bag.IsItemInBag(item))
+                if (action == Command.UseItem && bag.IsItemInBag(item))
                 {
-                    if (location.CurrentPoint == Direction.North)
+                    if (location.CurrentPoint == Command.North)
                     {
                         reader.DisplayText("Käytit tavaraa", GeneralUtils.GetTopCursore());
                         
                     }
 
-                    if (location.CurrentPoint == Direction.East)
+                    if (location.CurrentPoint == Command.East)
+                    {
+                        reader.DisplayText("Käytit tavaraa", GeneralUtils.GetTopCursore());
+                    }
+
+                    if (location.CurrentPoint == Command.South)
                     {
                         //
                     }
 
-                    if (location.CurrentPoint == Direction.South)
-                    {
-                        //
-                    }
-
-                    if (location.CurrentPoint == Direction.West)
+                    if (location.CurrentPoint == Command.West)
                     {
                         //
                     }
                 }
 
-                if (action == SpecialAction.Hit)
+                if (action == Command.Hit)
                 {
                     reader.DisplayText("Not nice", GeneralUtils.GetTopCursore());
                 }

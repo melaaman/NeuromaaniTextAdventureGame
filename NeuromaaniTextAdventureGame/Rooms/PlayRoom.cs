@@ -8,18 +8,72 @@ namespace NeuromaaniTextAdventureGame.Rooms
 {
     public abstract class PlayRoom
     {
-
         // The following methdos are overridden in each room
         public abstract Location setUp();
-        public abstract void GenerateSpecialActions(SpecialAction action, Bag bag, FileReader reader, Location location, string item);
+        public abstract void GenerateSpecialActions(Command action, Bag bag, FileReader reader, Location location, string item);
 
-        // The following methods are common for all rooms
-        void GetFootnote(string file, int chapterIndex, FileReader reader)
+        // Play room
+        public void Play(Frame frame, FileReader reader, Bag bag)
         {
-            reader.DisplayTextFromFile(file, chapterIndex, GeneralUtils.GetTopCursore());
+            var location = setUp();
+            DescribeLocation(location, frame, reader);
+            var exit = false;
+
+            while (!exit)
+            {
+                Console.SetCursorPosition(4, GeneralUtils.GetTopCursore());
+                var command = Console.ReadLine();
+                var commandEnum = UserInput.ConvertCommandToEnum(command);
+
+                switch (commandEnum)
+                {
+                    case Command.North:
+                    case Command.East:
+                    case Command.South:
+                    case Command.West:
+                        Location destination;
+                        if (location.CurrentPoint == commandEnum) CreateAnswer("Olet jo siellä", reader);
+                        else if (location.Exits.TryGetValue(commandEnum, out destination))
+                        {
+                            location = destination;
+                            DescribeLocation(location, frame, reader);
+                            PlayGame.currentRoom = location;
+                        }
+                        else CreateAnswer("Et pääse sinne.", reader);
+                        break;
+                    case Command.Hello:
+                    case Command.HowAreYou:
+                    case Command.Stupid:
+                        if (location.Person != null) GetAnswerToSaycommand(commandEnum, location.Person, reader);
+                        break;
+                    case Command.AskHelp:
+                        reader.DisplayTextFromFile("ohjeita.txt", 0, GeneralUtils.GetTopCursore());
+                        break;
+                    case Command.UseItem:
+                    case Command.Hit:
+                        GetResponseToSpecialAction(commandEnum, command, bag, reader, location);
+                        break;
+                    case Command.TakeItem:
+                        TakeItem(command, location, bag, frame, reader);
+                        break;
+                    case Command.GetFootnote:
+                        GetFootnote(location.File, location.InfoIndex, reader, location);
+                        break;
+                    case Command.ExitRoom:
+                        if (location.ExitRoom) exit = true;
+                        else CreateAnswer("Ei poistumiskäyntiä", reader);
+                        break;
+                    case Command.ExitGame:
+                        exit = true;
+                        break;
+                    default:
+                        CreateAnswer("Gereg ei ymmärrä käskyäsi.", reader);
+                        break;
+                }
+            }
         }
 
-        void describeLocation(Location location, Frame frame, FileReader reader)
+        void DescribeLocation(Location location, Frame frame, FileReader reader)
         {
             if (location == null)
             {
@@ -30,9 +84,15 @@ namespace NeuromaaniTextAdventureGame.Rooms
             reader.DisplayTextFromFile(location.File, location.ChapterIndex, 4);
         }
 
-        void GenerateAnswer(string answer, FileReader reader)
+        void CreateAnswer(string answer, FileReader reader)
         {
             reader.DisplayText(answer, GeneralUtils.GetTopCursore());
+        }
+        public static string GenerateRandomAnswer(string[] answers)
+        {
+            Random random = new Random();
+            var randomIndex = random.Next(answers.Length);
+            return answers[randomIndex];
         }
         void Hit()
         {
@@ -57,167 +117,61 @@ namespace NeuromaaniTextAdventureGame.Rooms
             Thread.Sleep(500);
         }
 
-        void GenerateAnswerFromSayEnum(Say say, string person, FileReader reader)
+        void GetAnswerToSaycommand(Command command, string person, FileReader reader)
         {
-            switch (say)
+            switch (command)
             {
-                case Say.Hello:
+                case Command.Hello:
                     string[] answersToHello = { "No hei vaan", "Terve", "Hej" };
-                    GenerateAnswer(person + " sanoo: " + GenerateRandomAnswer(answersToHello), reader);
+                    CreateAnswer(person + " sanoo: " + GenerateRandomAnswer(answersToHello), reader);
                     return;
-                case Say.HowAreYou:
+                case Command.HowAreYou:
                     string[] answersToHowAreYou = { "Ihan ok", "Siinähän se" };
-                    GenerateAnswer(person + " sanoo: " + GenerateRandomAnswer(answersToHowAreYou), reader);
+                    CreateAnswer(person + " sanoo: " + GenerateRandomAnswer(answersToHowAreYou), reader);
                     return;
-                case Say.Stupid:
+                case Command.Stupid:
                     string[] answersToCallingNames = { "Se oli ikävästi sanottu.", "????" };
-                    GenerateAnswer(person + " sanoo: " + GenerateRandomAnswer(answersToCallingNames), reader);
+                    CreateAnswer(person + " sanoo: " + GenerateRandomAnswer(answersToCallingNames), reader);
                     return;
                 default:
                     return;
             }
         }
 
-        void GenerateResponseToSpecialAction(SpecialAction specialAction, string command, Bag bag, FileReader reader, Location location)
+        void GetResponseToSpecialAction(Command command, string userInput, Bag bag, FileReader reader, Location location)
         {
-            switch (specialAction)
+            switch (command)
             {
-                case SpecialAction.UseItem:
-                    string item = command.Split(new[] { ' ' }, 2, StringSplitOptions.RemoveEmptyEntries)[1].ToLower().Trim();
-                    if (bag.IsItemInBag(item)) GenerateSpecialActions(specialAction, bag, reader, location, item);
+                case Command.UseItem:
+                    string item = userInput.Split(new[] { ' ' }, 2, StringSplitOptions.RemoveEmptyEntries)[1].ToLower().Trim();
+                    if (bag.IsItemInBag(item)) GenerateSpecialActions(command, bag, reader, location, item);
                     return;
-                case SpecialAction.Hit:
+                case Command.Hit:
                     Hit();
-                    GenerateSpecialActions(specialAction, bag, reader, location, "");
+                    GenerateSpecialActions(command, bag, reader, location, "");
                     return;
                 default:
                     return;
             }
         }
 
-        public static string GenerateRandomAnswer(string[] answers)
+        void TakeItem(string command, Location location, Bag bag, Frame frame, FileReader reader)
         {
-            Random random = new Random();
-            var randomIndex = random.Next(answers.Length);
-            return answers[randomIndex];
-        }
-
-        // Play room
-        public void Play(Frame frame, FileReader reader, Bag bag)
-        {
-            var location = setUp();
-            describeLocation(location, frame, reader);
-
-            while (true)
+            if (command.Split(new string[] { " " }, StringSplitOptions.None)[1] == location.Item)
             {
-
-                Console.SetCursorPosition(4, GeneralUtils.GetTopCursore());
-                var command = Regex.Replace(Console.ReadLine().ToLower().Trim(), "[?!]", "");
-
-                // Go to
-                if (UserInput.IsCommandDirection(command))
-                {
-                    Location destination;
-
-                    if (location.CurrentPoint == UserInput.ConvertCommandToDirectionEnum(command))
-                    {
-                        GenerateAnswer("Olet jo siellä", reader);
-
-                    }
-
-                    else if (location.Exits.TryGetValue(UserInput.ConvertCommandToDirectionEnum(command), out destination))
-                    {
-                        location = destination;
-                        describeLocation(location, frame, reader);
-                        PlayGame.currentRoom = location;
-                    }
-
-                    else
-                    {
-                        GenerateAnswer("Et pääse sinne.", reader);
-                    }
-                }
-
-                // Go out of room
-
-                else if (location.ExitSpace && command == "astu sisään")
-                {
-                    return;
-                }
-
-                // Take an item
-
-                else if (UserInput.IsCommandTakeItem(command))
-                {
-                    if (location.Item != null && command.Split(new string[] { " " }, StringSplitOptions.None)[1] == location.Item)
-                    {
-                        bag.AddItemToBag(location.Item);
-                        describeLocation(location, frame, reader);
-                    }
-
-                    else
-                    {
-                        GenerateAnswer("Et voi ottaa tavaraa.", reader);
-                    }
-                }
-
-                // Say something
-
-                else if (UserInput.IsCommandSay(command))
-                {
-                    Say commandEnum = UserInput.ConvertGeneralSayCommandEnum(command);
-
-                    if (location.Person != null)
-                    {
-                        GenerateAnswerFromSayEnum(commandEnum, location.Person, reader);
-                    }
-
-                }
-
-                // Ask for help
-
-                else if (UserInput.IsCommandAskHelp(command))
-                {
-                    reader.DisplayTextFromFile("ohjeita.txt", 0, GeneralUtils.GetTopCursore());
-                }
-
-                // Ask more information 
-
-                else if (UserInput.IsCommandGetFootnote(command))
-                {
-                    // If the location doesn't have InfoIndex, the index is 0 by default.
-                    if (location.InfoIndex == 0)
-                    {
-                        GenerateAnswer("Ei alaviitteitä", reader);
-                    }
-                    else
-                    {
-                        GetFootnote(location.File, location.InfoIndex, reader);
-                    }
-                }
-
-                // Special Actions
-
-                else if (UserInput.IsCommandSpecialAction(command))
-                {
-                    SpecialAction specialAction = UserInput.ConvertActionCommandToEnum(command);
-
-                    GenerateResponseToSpecialAction(specialAction, command, bag, reader, location);
-
-                }
-
-                // Stop playing
-
-                else if (command == "lopeta")
-                {
-
-                }
-
-                else
-                {
-                    reader.DisplayText("Gereg ei ymmärrä käskyäsi.", GeneralUtils.GetTopCursore());
-                }
+                bag.AddItemToBag(location.Item);
+                DescribeLocation(location, frame, reader);
             }
+
+            else CreateAnswer("Et voi ottaa tavaraa.", reader);
         }
+
+        void GetFootnote(string file, int chapterIndex, FileReader reader, Location location)
+        {
+            // If location doesn't have InfoIndex, the index is 0 by default
+            if (location.InfoIndex == 0) CreateAnswer("Ei alaviitteitä", reader);
+            else reader.DisplayTextFromFile(file, chapterIndex, GeneralUtils.GetTopCursore());
+        }
+
     }
 }

@@ -11,11 +11,39 @@ namespace NeuromaaniTextAdventureGame.Tests.Game.Tests
         [TestCase("Pohjoiseen")]
         [TestCase("Pohjoiseen ")]
         [TestCase("mene pohjoiseen")]
-        [TestCase("Liiku Länteen")]
-
-        public void isCommandDirection_CorrectInput_ReturnTrue(string input)
+        public void IsCommandMoveNorth_CorrectInput_ReturnTrue(string input)
         {
-            var result = UserInput.IsCommandDirection(input);
+            var result = UserInput.IsCommandMoveNorth(input);
+            Assert.AreEqual(true, result);
+        }
+
+        [TestCase("itään ")]
+        [TestCase(" Itään")]
+        [TestCase("Liiku itään ")]
+        [TestCase("mene itään")]
+        public void IsCommandMoveEast_CorrectInput_ReturnTrue(string input)
+        {
+            var result = UserInput.IsCommandMoveEast(input);
+            Assert.AreEqual(true, result);
+        }
+
+        [TestCase("etelään ")]
+        [TestCase(" ETelään")]
+        [TestCase("Liiku etelään ")]
+        [TestCase("mene etelään")]
+        public void IsCommandMoveSouth_CorrectInput_ReturnTrue(string input)
+        {
+            var result = UserInput.IsCommandMoveSouth(input);
+            Assert.AreEqual(true, result);
+        }
+
+        [TestCase("länteen ")]
+        [TestCase(" LÄnteen")]
+        [TestCase("Liiku länteen ")]
+        [TestCase("mene länteen")]
+        public void IsCommandMoveWest_CorrectInput_ReturnTrue(string input)
+        {
+            var result = UserInput.IsCommandMoveWest(input);
             Assert.AreEqual(true, result);
         }
 
@@ -23,7 +51,7 @@ namespace NeuromaaniTextAdventureGame.Tests.Game.Tests
         [TestCase("Apua  ")]
         [TestCase(" öö")]
         [TestCase("ÖöÖ ")]
-        public void isCommandAskHelp_CorrectInput_ReturnTrue(string input)
+        public void IsCommandAskHelp_CorrectInput_ReturnTrue(string input)
         {
             var result = UserInput.IsCommandAskHelp(input);
             Assert.AreEqual(true, result);
@@ -33,7 +61,7 @@ namespace NeuromaaniTextAdventureGame.Tests.Game.Tests
         [TestCase("Alaviite ")]
         [TestCase("av ")]
         [TestCase("AV ")]
-        public void isCommandAskInformation_CorrectInput_ReturnTrue(string input)
+        public void IsCommandAskInformation_CorrectInput_ReturnTrue(string input)
         {
             var result = UserInput.IsCommandGetFootnote(input);
             Assert.AreEqual(true, result);
@@ -41,25 +69,41 @@ namespace NeuromaaniTextAdventureGame.Tests.Game.Tests
 
         [TestCase("ota tavara")]
         [TestCase("Ota toinen tavara ")]
-        public void isCommandTakeItem_CorrectInput_ReturnTrue(string input)
+        public void IsCommandTakeItem_CorrectInput_ReturnTrue(string input)
         {
             var result = UserInput.IsCommandTakeItem(input);
             Assert.AreEqual(true, result);
         }
 
         [Test]
-        public void isCommandTakeItem_InCorrectInput_ReturnFalse()
+        public void IsCommandTakeItem_InCorrectInput_ReturnFalse()
         {
             var result = UserInput.IsCommandTakeItem("ota");
             Assert.AreEqual(false, result);
         }
 
         [TestCase("sano hei")]
-        [TestCase("Sano mitä kuuluu ")]
-        [TestCase("Sano  Mitä kuuluu ")]
-        public void isCommandSay_CorrectInput_ReturnTrue(string input)
+        [TestCase("sano MOI")]
+        public void IsCommandSayHello_CorrectInput_ReturnTrue(string input)
         {
-            var result = UserInput.IsCommandSay(input);
+            var result = UserInput.IsCommandSayHello(input);
+            Assert.AreEqual(true, result);
+        }
+
+        [TestCase("sano Mitä kuuluu ")]
+        [TestCase("sano miten menee")]
+        public void IsCommandSayHowAreYou_CorrectInput_ReturnTrue(string input)
+        {
+            var result = UserInput.IsCommandSayHowAreYou(input);
+            Assert.AreEqual(true, result);
+        }
+
+        [TestCase(" sano Idiootti ")]
+        [TestCase("sano hölmö")]
+        [TestCase("sano TYHMä ")]
+        public void IsCommandSayStupid_CorrectInput_ReturnTrue(string input)
+        {
+            var result = UserInput.IsCommandSayStupid(input);
             Assert.AreEqual(true, result);
         }
 
@@ -75,54 +119,52 @@ namespace NeuromaaniTextAdventureGame.Tests.Game.Tests
         [TestCase("Lyö  ")]
         [TestCase("lyö")]
 
-        public void isCommandAction_CorrectInput_ReturnTrue(string input)
+        public void IsCommandAction_CorrectInput_ReturnTrue(string input)
         {
-            var result = UserInput.IsCommandSpecialAction(input);
+            var result = UserInput.IsCommandHit(input);
             Assert.AreEqual(true, result);
         }
 
-        [TestCase("pohjoiseen", Direction.North)]
-        [TestCase("mene itään", Direction.East)]
-        [TestCase("länteen", Direction.West)]
-        [TestCase("mene etelään", Direction.South)]
-        [TestCase("mitä tahansa muuta", Direction.Default)]
-        public void convertCommandToDirectionEnum_CorrectInput_ReturnCorrectDirection(string input, Direction output)
+        [TestCase("astu sisään  ")]
+        [TestCase("Eteenpäin")]
+        [TestCase(" mene eteenPäin")]
+        public void IsCommandExitRoom_CorrectInput_ReturnTrue(string input)
         {
-            var result = UserInput.ConvertCommandToDirectionEnum(input);
+            var result = UserInput.IsCommandExitRoom(input);
+            Assert.AreEqual(true, result);
+        }
+
+        [TestCase("Lopeta")]
+        [TestCase(" lopeta ")]
+        public void IsCommandExitGame_CorrectInput_ReturnTrue(string input)
+        {
+            var result = UserInput.IsCommandExitGame(input);
+            Assert.AreEqual(true, result);
+        }
+
+        [TestCase("mene pohjoiseen", Command.North)]
+        [TestCase("mene Itään", Command.East)]
+        [TestCase("liiku etelään ", Command.South)]
+        [TestCase(" Länteen", Command.West)]
+        [TestCase("sano HEI", Command.Hello)]
+        [TestCase(" sano idiootti", Command.Stupid)]
+        [TestCase("sano miten Menee ", Command.HowAreYou)]
+        [TestCase(" käytä tavara", Command.UseItem)]
+        [TestCase(" lyö", Command.Hit)]
+        [TestCase(" av ", Command.GetFootnote)]
+        [TestCase("ööö", Command.AskHelp)]
+        [TestCase("ota tavara ", Command.TakeItem)]
+        [TestCase("mene eteenpäin ", Command.ExitRoom)]
+        [TestCase(" lopeta ", Command.ExitGame)]
+        public void ConvertCommandToEnum_DifferentCommands_ReturnTrue(string command, Command output)
+        {
+            var result = UserInput.ConvertCommandToEnum(command);
             Assert.AreEqual(output, result);
-        }
-
-        [TestCase("sano hei", Say.Hello)]
-        [TestCase("sano Moi", Say.Hello)]
-        [TestCase("mene mitä kuuluu", Say.HowAreYou)]
-        [TestCase("mene miten Menee ", Say.HowAreYou)]
-        [TestCase("sano idiootti", Say.Stupid)]
-        [TestCase("Sano hölMö", Say.Stupid)]
-        public void ConvertGeneralSayCommandEnum_CorrectInput_ReturnCorrectSay(string input, Say output)
-        {
-            var result = UserInput.ConvertGeneralSayCommandEnum(input);
-            Assert.AreEqual(output, result);
-        }
-
-        [TestCase("Käytä tavara", SpecialAction.UseItem)]
-        [TestCase("Lyö ", SpecialAction.Hit)]
-        public void convertActionCommandToEnum_CorrectInput_ReturnTrue(string command, SpecialAction action)
-        {
-
-            var result = UserInput.ConvertActionCommandToEnum(command);
-            Assert.AreEqual(action, result);
-        }
-
-        [Test]
-        public void convertActionCommandToEnum_IncorrectInput_ReturnFalse() { 
-        
-            var result = UserInput.ConvertActionCommandToEnum("jokin käsky");
-            Assert.AreEqual(SpecialAction.Default, result);
         }
 
         [Test]
 
-        public void generateRandomAnswer_OnePossibleAnswer_ReturnTrue()
+        public void GenerateRandomAnswer_OnePossibleAnswer_ReturnTrue()
         {
             string[] answers = { "Hei" };
             var result = PlayRoom.GenerateRandomAnswer(answers);
