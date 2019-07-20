@@ -47,7 +47,7 @@ namespace NeuromaaniTextAdventureGame.Rooms
                         if (location.Person != null) GetAnswerToSaycommand(commandEnum, location.Person, reader);
                         break;
                     case Command.AskHelp:
-                        reader.DisplayTextFromFile("ohjeita.txt", 0, GeneralUtils.GetTopCursore());
+                        reader.DisplayTextFromFile("ohjeita.tx", 0, GeneralUtils.GetTopCursore());
                         break;
                     case Command.UseItem:
                     case Command.Hit:
@@ -87,12 +87,6 @@ namespace NeuromaaniTextAdventureGame.Rooms
         void CreateAnswer(string answer, FileReader reader)
         {
             reader.DisplayText(answer, GeneralUtils.GetTopCursore());
-        }
-        public static string GenerateRandomAnswer(string[] answers)
-        {
-            Random random = new Random();
-            var randomIndex = random.Next(answers.Length);
-            return answers[randomIndex];
         }
         void Hit()
         {
@@ -172,6 +166,11 @@ namespace NeuromaaniTextAdventureGame.Rooms
             if (location.InfoIndex == 0) CreateAnswer("Ei alaviitteitä", reader);
             else reader.DisplayTextFromFile(file, chapterIndex, GeneralUtils.GetTopCursore());
         }
-
+        public static string GenerateRandomAnswer(string[] answers)
+        {
+            Random random = new Random();
+            var randomIndex = random.Next(answers.Length);
+            return answers[randomIndex];
+        }
     }
 }

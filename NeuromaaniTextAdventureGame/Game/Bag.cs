@@ -15,7 +15,6 @@ namespace NeuromaaniTextAdventureGame.Game
             if (!_bag.Exists(i => i == item) == false) return;
             _bag.Add(item);
         }
-
         public bool IsItemInBag(string item)
         {
             if (_bag.Contains(item)) return true;
@@ -27,13 +26,11 @@ namespace NeuromaaniTextAdventureGame.Game
             if (!_bag.Exists(i => i == item) || _bag.Count == 0) return;
             _bag.Remove(item);
         }
-
         public string GetVisibleBag()
         {
             if (_bag == null) return "";
             return string.Join(", ", _bag);
         }
-
         public string GetTruncatedVisibleBag()
         {
             if (_bag == null) return "";

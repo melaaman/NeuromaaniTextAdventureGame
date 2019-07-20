@@ -23,19 +23,14 @@ namespace NeuromaaniTextAdventureGame.Game
             Console.Clear();
             DrawFrame();
         }
-
         public void AddPoints(int points) => _pointsCurrent = GeneralUtils.AddUntilHundred(_pointsCurrent, points);
-
         public void SubtractPoints(int points) => _pointsCurrent = GeneralUtils.Subtract(_pointsCurrent, points);
-
         public string GetPlayerName() => GeneralUtils.TruncateString(_playerName, 7);
-
         public void GivePlayerName(string playerName) {
             _playerName = playerName;
         }
         private void DrawFrame()
         {
-
             // pistepalkki
 
             Console.ForegroundColor = ConsoleColor.Cyan;

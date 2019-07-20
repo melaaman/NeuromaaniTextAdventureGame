@@ -77,7 +77,6 @@
     <Compile Include="Game\Frame.cs" />
     <Compile Include="Game\Game.cs" />
     <Compile Include="Game\GeneralUtils.cs" />
-    <Compile Include="Game\IBag.cs" />
     <Compile Include="Game\Intro.cs" />
     <Compile Include="Rooms\BedRoom.cs" />
     <Compile Include="Rooms\LivingRoom.cs" />
