@@ -16,11 +16,14 @@ namespace NeuromaaniTextAdventureGame.Rooms
             ChapterIndex = 0,
             CurrentPoint = Command.Default
         };
-        public override Location setUp()
+
+        public override string SpecialCommand { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        public override Location SetUp()
         {
             return start;
         }
-        public override void GenerateSpecialActions(Command action, Bag bag, FileReader reader, Location location, string item)
+        public override void GenerateSpecialActions(Frame frame, Command action, Bag bag, FileReader reader, string item)
         {
             throw new NotImplementedException();
         }

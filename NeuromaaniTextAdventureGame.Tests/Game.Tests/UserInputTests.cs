@@ -158,7 +158,7 @@ namespace NeuromaaniTextAdventureGame.Tests.Game.Tests
         [TestCase(" lopeta ", Command.ExitGame)]
         public void ConvertCommandToEnum_DifferentCommands_ReturnTrue(string command, Command output)
         {
-            var result = UserInput.ConvertCommandToEnum(command);
+            var result = UserInput.ConvertCommandToEnum(command, "");
             Assert.AreEqual(output, result);
         }
 

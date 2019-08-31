@@ -7,29 +7,31 @@ namespace NeuromaaniTextAdventureGame.Rooms
 {
     public class BedRoom : PlayRoom
     {
+        private string _specialCommand = "";
+
         Location start = new Location()
         {
+            Title = "HERÄÄMINEN",
             File = "bedroom.txt",
             ChapterIndex = 0,
-            InfoIndex = 1,
-            CurrentPoint = Command.Default
+            FootnoteIndex = 1,
+            CurrentPoint = Command.North
         };
 
         Location bed = new Location()
         {
             File = "bedroom.txt",
             ChapterIndex = 2,
-            InfoIndex = 3,
+            FootnoteIndex = 3,
             CurrentPoint = Command.North,
-            Person = "Tyyppi",
-            Item = "tavara"
+            Item = "kivi"
         };
 
         Location wallWithPoster = new Location()
         {
             File = "bedroom.txt",
             ChapterIndex = 4,
-            InfoIndex = 5,
+            FootnoteIndex = 5,
             CurrentPoint = Command.West
         };
 
@@ -49,7 +51,9 @@ namespace NeuromaaniTextAdventureGame.Rooms
             ExitRoom = true
         };
 
-        public override Location setUp()
+        public override string SpecialCommand { get { return _specialCommand; } set { _specialCommand = value; } }
+
+        public override Location SetUp()
         {
             start.Exits.Add(Command.East, doorWC);
             start.Exits.Add(Command.North, bed);
@@ -77,37 +81,14 @@ namespace NeuromaaniTextAdventureGame.Rooms
 
         }
 
-        public override void GenerateSpecialActions(Command action, Bag bag, FileReader reader, Location location, string item)
+        public override void GenerateSpecialActions(Frame frame, Command action, Bag bag, FileReader reader, string item)
         {
             try
             {
                 if (action == Command.UseItem && bag.IsItemInBag(item))
                 {
-                    if (location.CurrentPoint == Command.North)
-                    {
-                        reader.DisplayText("Käytit tavaraa", GeneralUtils.GetTopCursore());
-                        
-                    }
+                    reader.DisplayText("Ehkäpä tavaralla on käyttöä jossain muussa tilanteessa.", GeneralUtils.GetTopCursore());
 
-                    if (location.CurrentPoint == Command.East)
-                    {
-                        reader.DisplayText("Käytit tavaraa", GeneralUtils.GetTopCursore());
-                    }
-
-                    if (location.CurrentPoint == Command.South)
-                    {
-                        //
-                    }
-
-                    if (location.CurrentPoint == Command.West)
-                    {
-                        //
-                    }
-                }
-
-                if (action == Command.Hit)
-                {
-                    reader.DisplayText("Not nice", GeneralUtils.GetTopCursore());
                 }
             }
 

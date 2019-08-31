@@ -10,23 +10,45 @@ namespace NeuromaaniTextAdventureGame.Rooms
 {
     public class WC: PlayRoom
     {
+        private string _specialCommand = "aja parta";
 
         Location start = new Location()
         {
+            Title = "PEILIIN TUIJOTTAMINEN MEDITAATIOKEINONA",
             File = "WC.txt",
             ChapterIndex = 0,
-            InfoIndex = 1,
+            FootnoteIndex = 1,
             CurrentPoint = Command.Default
         };
 
-        public override Location setUp()
+        Location shaving = new Location()
+        {
+            File = "WC.txt",
+            ChapterIndex = 2,
+            CurrentPoint = Command.East
+        };
+
+        public override string SpecialCommand { get { return _specialCommand; } set { _specialCommand = value; } }
+
+        public override Location SetUp()
         {
             return start;
         }
 
-        public override void GenerateSpecialActions(Command action, Bag bag, FileReader reader, Location location, string item)
+
+        public override void GenerateSpecialActions(Frame frame, Command action, Bag bag, FileReader reader, string item)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (action == Command.RoomSpecific)
+                {
+                    
+                }
+            }
+            catch
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }

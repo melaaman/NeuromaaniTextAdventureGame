@@ -1,6 +1,7 @@
 ﻿using NeuromaaniTextAdventureGame.FileManager;
 using NeuromaaniTextAdventureGame.Game;
 using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 
@@ -9,13 +10,15 @@ namespace NeuromaaniTextAdventureGame.Rooms
     public abstract class PlayRoom
     {
         // The following methdos are overridden in each room
-        public abstract Location setUp();
-        public abstract void GenerateSpecialActions(Command action, Bag bag, FileReader reader, Location location, string item);
+        public abstract Location SetUp();
+        public abstract void GenerateSpecialActions(Frame frame, Command action, Bag bag, FileReader reader, string item);
+        public abstract string SpecialCommand { get; set; }
 
         // Play room
         public void Play(Frame frame, FileReader reader, Bag bag)
         {
-            var location = setUp();
+            var location = SetUp();
+            GetChapterTitle(location, frame);
             DescribeLocation(location, frame, reader);
             var exit = false;
 
@@ -23,7 +26,7 @@ namespace NeuromaaniTextAdventureGame.Rooms
             {
                 Console.SetCursorPosition(4, GeneralUtils.GetTopCursore());
                 var command = Console.ReadLine();
-                var commandEnum = UserInput.ConvertCommandToEnum(command);
+                var commandEnum = UserInput.ConvertCommandToEnum(command, SpecialCommand);
 
                 switch (commandEnum)
                 {
@@ -47,17 +50,18 @@ namespace NeuromaaniTextAdventureGame.Rooms
                         if (location.Person != null) GetAnswerToSaycommand(commandEnum, location.Person, reader);
                         break;
                     case Command.AskHelp:
-                        reader.DisplayTextFromFile("ohjeita.tx", 0, GeneralUtils.GetTopCursore());
+                        reader.DisplayTextFromFile("ohjeita.txt", 0, GeneralUtils.GetTopCursore());
                         break;
                     case Command.UseItem:
                     case Command.Hit:
-                        GetResponseToSpecialAction(commandEnum, command, bag, reader, location);
+                    case Command.RoomSpecific:
+                        GetResponseToSpecialAction(frame, commandEnum, command, bag, reader, location);
                         break;
                     case Command.TakeItem:
                         TakeItem(command, location, bag, frame, reader);
                         break;
                     case Command.GetFootnote:
-                        GetFootnote(location.File, location.InfoIndex, reader, location);
+                        GetFootnote(location.File, location.FootnoteIndex, reader, location);
                         break;
                     case Command.ExitRoom:
                         if (location.ExitRoom) exit = true;
@@ -73,7 +77,23 @@ namespace NeuromaaniTextAdventureGame.Rooms
             }
         }
 
-        void DescribeLocation(Location location, Frame frame, FileReader reader)
+        void GetChapterTitle(Location location, Frame frame)
+        {
+            if (string.IsNullOrEmpty(location.Title)) return;
+            else
+            {
+                frame.ClearAndDrawFrame();
+                Console.SetCursorPosition(25, 10);
+                location.Title.ToCharArray().ToList().ForEach(c =>
+                {
+                    Console.Write(c + " ");
+                    Thread.Sleep(100);
+                });
+                Thread.Sleep(1500);
+                frame.ClearAndDrawFrame();
+            }
+        }
+        public void DescribeLocation(Location location, Frame frame, FileReader reader)
         {
             if (location == null)
             {
@@ -132,17 +152,20 @@ namespace NeuromaaniTextAdventureGame.Rooms
             }
         }
 
-        void GetResponseToSpecialAction(Command command, string userInput, Bag bag, FileReader reader, Location location)
+        void GetResponseToSpecialAction(Frame frame, Command command, string userInput, Bag bag, FileReader reader, Location location)
         {
             switch (command)
             {
                 case Command.UseItem:
                     string item = userInput.Split(new[] { ' ' }, 2, StringSplitOptions.RemoveEmptyEntries)[1].ToLower().Trim();
-                    if (bag.IsItemInBag(item)) GenerateSpecialActions(command, bag, reader, location, item);
+                    if (bag.IsItemInBag(item)) GenerateSpecialActions(frame, command, bag, reader, item);
                     return;
                 case Command.Hit:
                     Hit();
-                    GenerateSpecialActions(command, bag, reader, location, "");
+                    GenerateSpecialActions(frame, command, bag, reader, "");
+                    return;
+                case Command.RoomSpecific:
+                    GenerateSpecialActions(frame, command, bag, reader, "");
                     return;
                 default:
                     return;
@@ -163,7 +186,7 @@ namespace NeuromaaniTextAdventureGame.Rooms
         void GetFootnote(string file, int chapterIndex, FileReader reader, Location location)
         {
             // If location doesn't have InfoIndex, the index is 0 by default
-            if (location.InfoIndex == 0) CreateAnswer("Ei alaviitteitä", reader);
+            if (location.FootnoteIndex == 0) CreateAnswer("Ei alaviitteitä", reader);
             else reader.DisplayTextFromFile(file, chapterIndex, GeneralUtils.GetTopCursore());
         }
         public static string GenerateRandomAnswer(string[] answers)
@@ -172,5 +195,6 @@ namespace NeuromaaniTextAdventureGame.Rooms
             var randomIndex = random.Next(answers.Length);
             return answers[randomIndex];
         }
+
     }
 }

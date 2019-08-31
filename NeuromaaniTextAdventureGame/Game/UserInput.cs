@@ -22,6 +22,7 @@ namespace NeuromaaniTextAdventureGame.Game
         AskHelp,
         ExitRoom,
         ExitGame,
+        RoomSpecific,
         Default
     }
     public class UserInput
@@ -76,7 +77,9 @@ namespace NeuromaaniTextAdventureGame.Game
             }
             return false;
         }
-        public static Command ConvertCommandToEnum(string command)
+
+
+        public static Command ConvertCommandToEnum(string command, string roomSpecificCommand)
         {
             if (IsCommandMoveNorth(command))
             {
@@ -146,6 +149,11 @@ namespace NeuromaaniTextAdventureGame.Game
             if (IsCommandExitGame(command))
             {
                 return Command.ExitGame;
+            }
+
+            if (command == roomSpecificCommand)
+            {
+                return Command.RoomSpecific;
             }
 
             else
