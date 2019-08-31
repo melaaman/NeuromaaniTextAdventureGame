@@ -14,15 +14,15 @@ namespace NeuromaaniTextAdventureGame.Rooms
             Title = "HERÄÄMINEN",
             File = "bedroom.txt",
             ChapterIndex = 0,
-            FootnoteIndex = 1,
-            CurrentPoint = Command.North
+            FootnoteIndex = 5,
+            CurrentPoint = Command.Default
         };
 
         Location bed = new Location()
         {
             File = "bedroom.txt",
-            ChapterIndex = 2,
-            FootnoteIndex = 3,
+            ChapterIndex = 1,
+            FootnoteIndex = 6,
             CurrentPoint = Command.North,
             Item = "kivi"
         };
@@ -30,15 +30,14 @@ namespace NeuromaaniTextAdventureGame.Rooms
         Location wallWithPoster = new Location()
         {
             File = "bedroom.txt",
-            ChapterIndex = 4,
-            FootnoteIndex = 5,
+            ChapterIndex = 2,
             CurrentPoint = Command.West
         };
 
         public Location doorWC = new Location()
         {
             File = "bedroom.txt",
-            ChapterIndex = 6,
+            ChapterIndex = 3,
             CurrentPoint = Command.East,
             ExitRoom = true
         };
@@ -46,7 +45,7 @@ namespace NeuromaaniTextAdventureGame.Rooms
         public Location doorLivingRoom = new Location()
         {
             File = "bedroom.txt",
-            ChapterIndex = 7,
+            ChapterIndex = 4,
             CurrentPoint = Command.South,
             ExitRoom = true
         };
@@ -75,7 +74,6 @@ namespace NeuromaaniTextAdventureGame.Rooms
             doorLivingRoom.Exits.Add(Command.North, bed);
             doorLivingRoom.Exits.Add(Command.East, doorWC);
             doorLivingRoom.Exits.Add(Command.West, wallWithPoster);
-
 
             return start;
 

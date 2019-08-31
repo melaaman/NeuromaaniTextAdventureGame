@@ -34,6 +34,7 @@ namespace NeuromaaniTextAdventureGame.Rooms
                     case Command.East:
                     case Command.South:
                     case Command.West:
+                    case Command.RoomSpecificLocation:
                         Location destination;
                         if (location.CurrentPoint == commandEnum) CreateAnswer("Olet jo siellä", reader);
                         else if (location.Exits.TryGetValue(commandEnum, out destination))
@@ -54,7 +55,6 @@ namespace NeuromaaniTextAdventureGame.Rooms
                         break;
                     case Command.UseItem:
                     case Command.Hit:
-                    case Command.RoomSpecific:
                         GetResponseToSpecialAction(frame, commandEnum, command, bag, reader, location);
                         break;
                     case Command.TakeItem:
@@ -83,11 +83,11 @@ namespace NeuromaaniTextAdventureGame.Rooms
             else
             {
                 frame.ClearAndDrawFrame();
-                Console.SetCursorPosition(25, 10);
+                Console.SetCursorPosition(20, 10);
                 location.Title.ToCharArray().ToList().ForEach(c =>
                 {
                     Console.Write(c + " ");
-                    Thread.Sleep(100);
+                    Thread.Sleep(80);
                 });
                 Thread.Sleep(1500);
                 frame.ClearAndDrawFrame();
@@ -162,9 +162,6 @@ namespace NeuromaaniTextAdventureGame.Rooms
                     return;
                 case Command.Hit:
                     Hit();
-                    GenerateSpecialActions(frame, command, bag, reader, "");
-                    return;
-                case Command.RoomSpecific:
                     GenerateSpecialActions(frame, command, bag, reader, "");
                     return;
                 default:

@@ -15,12 +15,12 @@ namespace NeuromaaniTextAdventureGame.Game
         }
         public void DisplayIntro()
         {
-            //DisplayTitleText();
-            //DisplayIntroText();
-            //_reader.DisplayTextFromFile("intro.txt", 0, 1);
-            //_reader.DisplayTextFromFile("intro.txt", 1, 23);
-            //GeneralUtils.PlayEnter(26);
-            //AskPlayerName();
+            DisplayTitleText();
+            DisplayIntroText();
+            _reader.DisplayTextFromFile("intro.txt", 0, 1);
+            _reader.DisplayTextFromFile("intro.txt", 1, 23);
+            GeneralUtils.PlayEnter(26);
+            AskPlayerName();
             GiveInstructions();
             StartGame();
         }

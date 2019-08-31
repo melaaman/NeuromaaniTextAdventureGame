@@ -30,25 +30,16 @@ namespace NeuromaaniTextAdventureGame.Rooms
 
         public override string SpecialCommand { get { return _specialCommand; } set { _specialCommand = value; } }
 
+        public override void GenerateSpecialActions(Frame frame, Command action, Bag bag, FileReader reader, string item)
+        {
+            throw new NotImplementedException();
+        }
+
         public override Location SetUp()
         {
+            start.Exits.Add(Command.RoomSpecificLocation, shaving);
             return start;
         }
 
-
-        public override void GenerateSpecialActions(Frame frame, Command action, Bag bag, FileReader reader, string item)
-        {
-            try
-            {
-                if (action == Command.RoomSpecific)
-                {
-                    
-                }
-            }
-            catch
-            {
-                throw new NotImplementedException();
-            }
-        }
     }
 }

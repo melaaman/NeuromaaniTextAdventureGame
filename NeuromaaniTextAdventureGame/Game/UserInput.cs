@@ -12,6 +12,7 @@ namespace NeuromaaniTextAdventureGame.Game
         South,
         West,
         East,
+        RoomSpecificLocation,
         Hello,
         Stupid,
         HowAreYou,
@@ -22,7 +23,6 @@ namespace NeuromaaniTextAdventureGame.Game
         AskHelp,
         ExitRoom,
         ExitGame,
-        RoomSpecific,
         Default
     }
     public class UserInput
@@ -79,7 +79,7 @@ namespace NeuromaaniTextAdventureGame.Game
         }
 
 
-        public static Command ConvertCommandToEnum(string command, string roomSpecificCommand)
+        public static Command ConvertCommandToEnum(string command, string roomSpecificLocation)
         {
             if (IsCommandMoveNorth(command))
             {
@@ -99,6 +99,11 @@ namespace NeuromaaniTextAdventureGame.Game
             if (IsCommandMoveWest(command))
             {
                 return Command.West;
+            }
+
+            if (command == roomSpecificLocation)
+            {
+                return Command.RoomSpecificLocation;
             }
 
             if (IsCommandSayHello(command))
@@ -149,11 +154,6 @@ namespace NeuromaaniTextAdventureGame.Game
             if (IsCommandExitGame(command))
             {
                 return Command.ExitGame;
-            }
-
-            if (command == roomSpecificCommand)
-            {
-                return Command.RoomSpecific;
             }
 
             else
