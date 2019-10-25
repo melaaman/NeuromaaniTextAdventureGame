@@ -15,8 +15,8 @@ namespace NeuromaaniTextAdventureGame.Game
         }
         public void DisplayIntro()
         {
-            DisplayTitleText();
-            DisplayIntroText();
+            //DisplayTitleText();
+            //DisplayIntroText();
             _reader.DisplayTextFromFile("intro.txt", 0, 1);
             _reader.DisplayTextFromFile("intro.txt", 1, 23);
             GeneralUtils.PlayEnter(26);
@@ -113,22 +113,22 @@ namespace NeuromaaniTextAdventureGame.Game
             for (int i = 0; i < 5; i++)
             {
                 if (Console.ReadLine().ToLower().Trim() == "aloita") return;
-                GiveInstructions();
+                SetCursorePosition();
                 i++;
             }
 
             while (true)
             {
-                //Console.SetCursorPosition(4, 20);
-                Console.CursorLeft = 4;
                 if (Console.ReadLine().ToLower().Trim() == "aloita") return;
-                GiveInstructions();
-                Console.SetCursorPosition(4, 18);
+                SetCursorePosition();
                 Console.WriteLine("Anna käsky \"Aloita\"");
-                Console.CursorLeft = 4;
-                Console.WriteLine("(HUOM! Jos et pelin aikana tiedä, mitä tehdä, kirjoita \"Apua\")");
-
+                SetCursorePosition();
             }
+        }
+
+        void SetCursorePosition()
+        {
+            Console.SetCursorPosition(4, GeneralUtils.GetTopCursore());
         }
     }
 }

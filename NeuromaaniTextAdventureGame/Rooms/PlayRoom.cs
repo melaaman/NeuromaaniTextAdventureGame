@@ -2,7 +2,6 @@
 using NeuromaaniTextAdventureGame.Game;
 using System;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading;
 
 namespace NeuromaaniTextAdventureGame.Rooms
@@ -12,6 +11,8 @@ namespace NeuromaaniTextAdventureGame.Rooms
         // The following methdos are overridden in each room
         public abstract Location SetUp();
         public abstract void GenerateSpecialActions(Frame frame, Command action, Bag bag, FileReader reader, string item);
+
+        public abstract void ClearLocationDictionaries();
         public abstract string SpecialCommand { get; set; }
 
         // Play room
@@ -64,7 +65,11 @@ namespace NeuromaaniTextAdventureGame.Rooms
                         GetFootnote(location.File, location.FootnoteIndex, reader, location);
                         break;
                     case Command.ExitRoom:
-                        if (location.ExitRoom) exit = true;
+                        if (location.ExitRoom)
+                        {
+                            ClearLocationDictionaries();
+                            exit = true;
+                        }
                         else CreateAnswer("Ei poistumiskäyntiä", reader);
                         break;
                     case Command.ExitGame:

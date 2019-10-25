@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NeuromaaniTextAdventureGame.FileManager;
 using NeuromaaniTextAdventureGame.Game;
 
@@ -24,6 +20,11 @@ namespace NeuromaaniTextAdventureGame.Rooms
             return start;
         }
         public override void GenerateSpecialActions(Frame frame, Command action, Bag bag, FileReader reader, string item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void ClearLocationDictionaries()
         {
             throw new NotImplementedException();
         }

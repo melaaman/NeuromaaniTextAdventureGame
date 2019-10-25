@@ -1,6 +1,5 @@
 ﻿using NeuromaaniTextAdventureGame.FileManager;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 

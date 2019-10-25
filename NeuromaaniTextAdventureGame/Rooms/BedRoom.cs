@@ -1,7 +1,6 @@
 ﻿using NeuromaaniTextAdventureGame.FileManager;
 using NeuromaaniTextAdventureGame.Game;
 using System;
-using System.Collections.Generic;
 
 namespace NeuromaaniTextAdventureGame.Rooms
 {
@@ -22,9 +21,7 @@ namespace NeuromaaniTextAdventureGame.Rooms
         {
             File = "bedroom.txt",
             ChapterIndex = 1,
-            FootnoteIndex = 6,
-            CurrentPoint = Command.North,
-            Item = "kivi"
+            CurrentPoint = Command.North
         };
 
         Location wallWithPoster = new Location()
@@ -83,16 +80,22 @@ namespace NeuromaaniTextAdventureGame.Rooms
         {
             try
             {
-                if (action == Command.UseItem && bag.IsItemInBag(item))
-                {
-                    reader.DisplayText("Ehkäpä tavaralla on käyttöä jossain muussa tilanteessa.", GeneralUtils.GetTopCursore());
-
-                }
+                if (action == Command.Hit) return;
             }
 
-            catch {
+            catch
+            {
                 throw new NotImplementedException();
             }
+        }
+
+        public override void ClearLocationDictionaries()
+        {
+            start.Exits.Clear();
+            bed.Exits.Clear();
+            doorWC.Exits.Clear();
+            wallWithPoster.Exits.Clear();
+            doorLivingRoom.Exits.Clear();
         }
     }
 

@@ -10,12 +10,10 @@ namespace NeuromaaniTextAdventureGame.Game
         public static bool gameOn = true;
         public static Location currentRoom = new Location();
 
-        // General objects
         Frame _frame;
         FileReader _reader;
         Bag _bag;
 
-        // Room objects
         BedRoom _bedRoom = new BedRoom();
         WC _wc = new WC();
         LivingRoom _livingRoom = new LivingRoom();
@@ -30,13 +28,15 @@ namespace NeuromaaniTextAdventureGame.Game
 
         public void Game()
         {
+            _bedRoom.Play(_frame, _reader, _bag);
+
             while (gameOn)
             {
-                _bedRoom.Play(_frame, _reader, _bag);
                 if (currentRoom == _bedRoom.doorWC) _wc.Play(_frame, _reader, _bag);
                 if (currentRoom == _bedRoom.doorLivingRoom) _livingRoom.Play(_frame, _reader, _bag);
-                gameOn = false;
+                if (currentRoom == _wc.doorToBedroom) _bedRoom.Play(_frame, _reader, _bag);
             }
+            gameOn = false;
 
             _frame.ClearAndDrawFrame();
             GeneralUtils.GetTopCursore();
