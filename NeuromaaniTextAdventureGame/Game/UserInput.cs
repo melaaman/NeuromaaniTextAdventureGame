@@ -40,7 +40,7 @@ namespace NeuromaaniTextAdventureGame.Game
         public static string[] sayStupid = { "hölmö", "idiootti", "tyhmä" };
         public static string[] askHowAreYou = { "mitä kuuluu", "miten menee" };
         public static string[] hitCommands = { "lyö" };
-        public static string[] exitRoomCommands = { "astu sisään", "eteenpäin", "mene eteenpäin" };
+        public static string[] exitRoomCommands = { "astu sisään", "astu ovesta"};
         public static string[] exitGameCommands = { "lopeta" };
         public static bool IsCommandMoveNorth(string command) => IsCommandInCommandArray(command, moveNorth);
         public static bool IsCommandMoveEast(string command) => IsCommandInCommandArray(command, moveEast);
@@ -78,7 +78,7 @@ namespace NeuromaaniTextAdventureGame.Game
         }
 
 
-        public static Command ConvertCommandToEnum(string command, string roomSpecificLocation)
+        public static Command ConvertCommandToEnum(string command)
         {
             if (IsCommandMoveNorth(command))
             {
@@ -98,11 +98,6 @@ namespace NeuromaaniTextAdventureGame.Game
             if (IsCommandMoveWest(command))
             {
                 return Command.West;
-            }
-
-            if (command == roomSpecificLocation)
-            {
-                return Command.RoomSpecificLocation;
             }
 
             if (IsCommandSayHello(command))

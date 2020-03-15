@@ -12,7 +12,7 @@ namespace NeuromaaniTextAdventureGame.Rooms
         public abstract void GenerateSpecialActions(Frame frame, Command action, Bag bag, FileReader reader, string item);
 
         public abstract void ClearLocationDictionaries();
-        public abstract string SpecialCommand { get; set; }
+        // public abstract string SpecialCommand { get; set; }
 
         // Play room
         public void Play(Frame frame, FileReader reader, Bag bag)
@@ -26,7 +26,7 @@ namespace NeuromaaniTextAdventureGame.Rooms
             {
                 Console.SetCursorPosition(4, GeneralUtils.GetTopCursore());
                 var command = Console.ReadLine();
-                var commandEnum = UserInput.ConvertCommandToEnum(command, SpecialCommand);
+                var commandEnum = UserInput.ConvertCommandToEnum(command);
 
                 switch (commandEnum)
                 {
@@ -51,7 +51,7 @@ namespace NeuromaaniTextAdventureGame.Rooms
                         if (location.Person != null) GetAnswerToSaycommand(commandEnum, location.Person, reader);
                         break;
                     case Command.AskHelp:
-                        reader.DisplayTextFromFile("ohjeita.txt", 0, GeneralUtils.GetTopCursore());
+                        reader.DisplayTextFromFile("help.txt", 0, GeneralUtils.GetTopCursore());
                         break;
                     case Command.UseItem:
                     case Command.Hit:

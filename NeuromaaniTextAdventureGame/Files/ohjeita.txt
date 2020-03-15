@@ -1,7 +1,0 @@
-﻿Käytössäsi olevat komennot:
-"Liiku/mene [ilmansuuntaan]"
-"Astu sisään" oviaukosta astuttaessa
-"Sano [jotain]"
-"Ota [tavara]"
-"Käytä [tavaraa]"
-"Alaviite/alaviitteet/av"

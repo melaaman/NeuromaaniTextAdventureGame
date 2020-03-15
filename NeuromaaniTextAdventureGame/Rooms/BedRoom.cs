@@ -6,7 +6,6 @@ namespace NeuromaaniTextAdventureGame.Rooms
 {
     public class BedRoom : PlayRoom
     {
-        private string _specialCommand = "";
 
         Location start = new Location()
         {
@@ -47,9 +46,6 @@ namespace NeuromaaniTextAdventureGame.Rooms
             CurrentPoint = Command.South,
             ExitRoom = true
         };
-
-        public override string SpecialCommand { get { return _specialCommand; } set { _specialCommand = value; } }
-
         public override Location SetUp()
         {
             start.Exits.Add(Command.East, doorWC);

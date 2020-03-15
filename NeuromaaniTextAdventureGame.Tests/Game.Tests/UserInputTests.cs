@@ -126,8 +126,7 @@ namespace NeuromaaniTextAdventureGame.Tests.Game.Tests
         }
 
         [TestCase("astu sisään  ")]
-        [TestCase("Eteenpäin")]
-        [TestCase(" mene eteenPäin")]
+        [TestCase("Astu Ovesta")]
         public void IsCommandExitRoom_CorrectInput_ReturnTrue(string input)
         {
             var result = UserInput.IsCommandExitRoom(input);
@@ -154,11 +153,11 @@ namespace NeuromaaniTextAdventureGame.Tests.Game.Tests
         [TestCase(" av ", Command.GetFootnote)]
         [TestCase("ööö", Command.AskHelp)]
         [TestCase("ota tavara ", Command.TakeItem)]
-        [TestCase("mene eteenpäin ", Command.ExitRoom)]
+        [TestCase("astu ovesta ", Command.ExitRoom)]
         [TestCase(" lopeta ", Command.ExitGame)]
         public void ConvertCommandToEnum_DifferentCommands_ReturnTrue(string command, Command output)
         {
-            var result = UserInput.ConvertCommandToEnum(command, "");
+            var result = UserInput.ConvertCommandToEnum(command);
             Assert.AreEqual(output, result);
         }
 

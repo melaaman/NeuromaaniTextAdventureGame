@@ -61,7 +61,7 @@ namespace NeuromaaniTextAdventureGame.Game
 |  |__| |  /  _____  \  |  |  |  | |  |____    |  `--'  |    \    /    |  |____ |  |\  \----.
  \______| /__/     \__\ |__|  |__| |_______|    \______/      \__/     |_______|| _| `._____|
 ";
-            Console.SetCursorPosition(4, 8);
+            Console.SetCursorPosition(4, 6);
             Console.WriteLine(text);
         }
 

@@ -94,7 +94,7 @@
     <Content Include="Files\bedroom.txt" />
     <Content Include="Files\intro.txt" />
     <Content Include="Files\livingRoom.txt" />
-    <Content Include="Files\ohjeita.txt" />
+    <Content Include="Files\help.txt" />
     <Content Include="Files\start.txt" />
     <Content Include="Files\test1.txt" />
     <Content Include="Files\Test2.txt" />

@@ -7,8 +7,6 @@ namespace NeuromaaniTextAdventureGame.Rooms
     public class WC: PlayRoom
     {
 
-        private string _specialCommand = "";
-
         Location start = new Location()
         {
             Title = "PEILIIN TUIJOTTAMINEN MEDITAATIOKEINONA",
@@ -54,8 +52,6 @@ namespace NeuromaaniTextAdventureGame.Rooms
             ChapterIndex = 5,
             CurrentPoint = Command.North,
         };
-        public override string SpecialCommand { get { return _specialCommand; } set { _specialCommand = value; } }
-
         public override Location SetUp()
         {
             start.Exits.Add(Command.East, toiletSeat);
@@ -98,9 +94,9 @@ namespace NeuromaaniTextAdventureGame.Rooms
                     PlayGame.gameOn = false;
                     PlayGame.gameOver = true;
                 }
-                if (action == Command.UseItem && bag.IsItemInBag(item))
+                if (action == Command.UseItem && bag.IsItemInBag(item) && item == "kivi")
                 {
-                    if (item == "kivi")
+                    if (PlayGame.currentRoom == mirror)
                     {
                         frame.AddPoints(53);
                         frame.ClearAndDrawFrame();

@@ -1,12 +1,10 @@
-﻿using System;
-using NeuromaaniTextAdventureGame.FileManager;
+﻿using NeuromaaniTextAdventureGame.FileManager;
 using NeuromaaniTextAdventureGame.Game;
 
 namespace NeuromaaniTextAdventureGame.Rooms
 {
     public class LivingRoom : PlayRoom
     {
-        private string _specialCommand = "";
 
         Location start = new Location()
         {
@@ -46,8 +44,6 @@ namespace NeuromaaniTextAdventureGame.Rooms
             CurrentPoint = Command.North,
             ExitRoom = true
         };
-        public override string SpecialCommand { get { return _specialCommand; } set { _specialCommand = value; } }
-
         public override Location SetUp()
         {
             start.Exits.Add(Command.East, chair);
@@ -75,6 +71,7 @@ namespace NeuromaaniTextAdventureGame.Rooms
         }
         public override void GenerateSpecialActions(Frame frame, Command action, Bag bag, FileReader reader, string item)
         {
+            if (action == Command.Hit) return;
             if (action == Command.UseItem && bag.IsItemInBag(item))
             {
                 if (item == "silitysrauta")
