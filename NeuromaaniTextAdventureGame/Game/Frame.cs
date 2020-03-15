@@ -29,6 +29,7 @@ namespace NeuromaaniTextAdventureGame.Game
         public void GivePlayerName(string playerName) {
             _playerName = playerName;
         }
+        public int GetPoints() => _pointsCurrent;
         private void DrawFrame()
         {
             // pistepalkki

@@ -36,13 +36,33 @@ namespace NeuromaaniTextAdventureGame.Game
                 if (currentRoom == _bedRoom.doorWC) _wc.Play(_frame, _reader, _bag);
                 if (currentRoom == _bedRoom.doorLivingRoom) _livingRoom.Play(_frame, _reader, _bag);
                 if (currentRoom == _wc.doorToBedroom) _bedRoom.Play(_frame, _reader, _bag);
+                if (currentRoom == _livingRoom.bedroomDoor) _bedRoom.Play(_frame, _reader, _bag);
+                if (currentRoom == _livingRoom.hallwayDoor) gameOn = false;
             }
 
             _frame.ClearAndDrawFrame();
-            GeneralUtils.GetTopCursore();
 
-            if (gameOver) Console.WriteLine("GAME OVER");
-            else Console.WriteLine("ONNEA!!!");
+            if (gameOver) GameOver();
+            else
+            {
+                Console.SetCursorPosition(10, 7);
+                Console.WriteLine("Demo päättyy tähän. Onnistuit saamaan {0} pistettä.", _frame.GetPoints());
+                Console.SetCursorPosition(0, 15);
+            };
+        }
+
+        void GameOver()
+        {
+            string text = @"
+  _______      ___      .___  ___.  _______      ______   ____    ____  _______ .______      
+ /  _____|    /   \     |   \/   | |   ____|    /  __  \  \   \  /   / |   ____||   _  \     
+|  |  __     /  ^  \    |  \  /  | |  |__      |  |  |  |  \   \/   /  |  |__   |  |_)  |    
+|  | |_ |   /  /_\  \   |  |\/|  | |   __|     |  |  |  |   \      /   |   __|  |      /     
+|  |__| |  /  _____  \  |  |  |  | |  |____    |  `--'  |    \    /    |  |____ |  |\  \----.
+ \______| /__/     \__\ |__|  |__| |_______|    \______/      \__/     |_______|| _| `._____|
+";
+            Console.SetCursorPosition(4, 8);
+            Console.WriteLine(text);
         }
 
     }

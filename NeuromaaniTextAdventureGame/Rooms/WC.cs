@@ -6,7 +6,8 @@ namespace NeuromaaniTextAdventureGame.Rooms
 {
     public class WC: PlayRoom
     {
-        private string _specialCommand = "aja parta";
+
+        private string _specialCommand = "";
 
         Location start = new Location()
         {
@@ -28,7 +29,7 @@ namespace NeuromaaniTextAdventureGame.Rooms
         {
             File = "WC.txt",
             ChapterIndex = 2,
-            CurrentPoint = Command.North
+            CurrentPoint = Command.North,
         };
 
         public Location doorToBedroom = new Location()
@@ -44,14 +45,17 @@ namespace NeuromaaniTextAdventureGame.Rooms
             File = "WC.txt",
             ChapterIndex = 4,
             CurrentPoint = Command.South,
+            Item = "kivi"
         };
 
         Location loop = new Location()
         {
             File = "WC.txt",
             ChapterIndex = 5,
-            CurrentPoint = Command.North
+            CurrentPoint = Command.North,
         };
+        public override string SpecialCommand { get { return _specialCommand; } set { _specialCommand = value; } }
+
         public override Location SetUp()
         {
             start.Exits.Add(Command.East, toiletSeat);
@@ -81,9 +85,6 @@ namespace NeuromaaniTextAdventureGame.Rooms
 
             return start;
         }
-
-        public override string SpecialCommand { get { return _specialCommand; } set { _specialCommand = value; } }
-
         public override void GenerateSpecialActions(Frame frame, Command action, Bag bag, FileReader reader, string item)
         {
             try
@@ -99,7 +100,18 @@ namespace NeuromaaniTextAdventureGame.Rooms
                 }
                 if (action == Command.UseItem && bag.IsItemInBag(item))
                 {
-                    reader.DisplayText("Ehkäpä tavaralla on käyttöä jossain muussa tilanteessa.", GeneralUtils.GetTopCursore());
+                    if (item == "kivi")
+                    {
+                        frame.AddPoints(53);
+                        frame.ClearAndDrawFrame();
+                        reader.DisplayTextFromFile("WC.txt", 8, GeneralUtils.GetTopCursore());
+                        GeneralUtils.PlayEnter(GeneralUtils.GetTopCursore());
+                        PlayGame.gameOn = false;
+                    }
+                    else
+                    {
+                        reader.DisplayText("Ehkäpä tavaralla on käyttöä jossain muussa tilanteessa.", GeneralUtils.GetTopCursore());
+                    }
                 }
             }
             catch
