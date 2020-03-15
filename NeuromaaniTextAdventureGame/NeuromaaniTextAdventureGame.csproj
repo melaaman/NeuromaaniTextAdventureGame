@@ -75,7 +75,7 @@
     <Compile Include="FileManager\IFileVerifier.cs" />
     <Compile Include="Game\Bag.cs" />
     <Compile Include="Game\Frame.cs" />
-    <Compile Include="Game\Game.cs" />
+    <Compile Include="Game\PlayGame.cs" />
     <Compile Include="Game\GeneralUtils.cs" />
     <Compile Include="Game\Intro.cs" />
     <Compile Include="Rooms\BedRoom.cs" />

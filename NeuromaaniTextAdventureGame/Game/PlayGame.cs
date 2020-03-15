@@ -8,6 +8,7 @@ namespace NeuromaaniTextAdventureGame.Game
     public class PlayGame
     {
         public static bool gameOn = true;
+        public static bool gameOver = false;
         public static Location currentRoom = new Location();
 
         Frame _frame;
@@ -36,11 +37,12 @@ namespace NeuromaaniTextAdventureGame.Game
                 if (currentRoom == _bedRoom.doorLivingRoom) _livingRoom.Play(_frame, _reader, _bag);
                 if (currentRoom == _wc.doorToBedroom) _bedRoom.Play(_frame, _reader, _bag);
             }
-            gameOn = false;
 
             _frame.ClearAndDrawFrame();
             GeneralUtils.GetTopCursore();
-            Console.WriteLine("GAME OVER");
+
+            if (gameOver) Console.WriteLine("GAME OVER");
+            else Console.WriteLine("ONNEA!!!");
         }
 
     }

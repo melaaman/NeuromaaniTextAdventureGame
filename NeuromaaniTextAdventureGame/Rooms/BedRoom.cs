@@ -21,6 +21,7 @@ namespace NeuromaaniTextAdventureGame.Rooms
         {
             File = "bedroom.txt",
             ChapterIndex = 1,
+            FootnoteIndex = 6,
             CurrentPoint = Command.North
         };
 

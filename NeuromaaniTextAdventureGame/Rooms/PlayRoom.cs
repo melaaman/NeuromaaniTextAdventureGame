@@ -8,7 +8,6 @@ namespace NeuromaaniTextAdventureGame.Rooms
 {
     public abstract class PlayRoom
     {
-        // The following methdos are overridden in each room
         public abstract Location SetUp();
         public abstract void GenerateSpecialActions(Frame frame, Command action, Bag bag, FileReader reader, string item);
 
@@ -23,7 +22,7 @@ namespace NeuromaaniTextAdventureGame.Rooms
             DescribeLocation(location, frame, reader);
             var exit = false;
 
-            while (!exit)
+            while (!exit && PlayGame.gameOn)
             {
                 Console.SetCursorPosition(4, GeneralUtils.GetTopCursore());
                 var command = Console.ReadLine();
