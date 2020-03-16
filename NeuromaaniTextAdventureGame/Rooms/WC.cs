@@ -85,7 +85,7 @@ namespace NeuromaaniTextAdventureGame.Rooms
         {
             try
             {
-                if (action == Command.Hit && PlayGame.currentRoom == mirror) {
+                if (action == Command.Hit && (PlayGame.currentRoom == mirror || PlayGame.currentRoom == loop)) {
                     frame.SubtractPoints(1000);
                     frame.ClearAndDrawFrame();
                     reader.DisplayTextFromFile("WC.txt", 7, GeneralUtils.GetTopCursore());
