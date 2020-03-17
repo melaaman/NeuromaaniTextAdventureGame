@@ -123,6 +123,7 @@ namespace NeuromaaniTextAdventureGame.Rooms
             toiletSeat.Exits.Clear();
             doorToBedroom.Exits.Clear();
             wall.Exits.Clear();
+            loop.Exits.Clear();
         }
     }
 }

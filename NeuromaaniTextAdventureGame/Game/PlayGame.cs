@@ -48,6 +48,7 @@ namespace NeuromaaniTextAdventureGame.Game
                 Console.SetCursorPosition(10, 7);
                 Console.WriteLine("Demo päättyy tähän. Onnistuit saamaan {0} pistettä.", _frame.GetPoints());
                 Console.SetCursorPosition(0, 15);
+                Console.ReadKey();
             };
         }
 
@@ -63,6 +64,7 @@ namespace NeuromaaniTextAdventureGame.Game
 ";
             Console.SetCursorPosition(4, 6);
             Console.WriteLine(text);
+            Console.ReadKey();
         }
 
     }
