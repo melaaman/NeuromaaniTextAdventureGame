@@ -6,10 +6,10 @@ namespace NeuromaaniTextAdventureGame.Rooms
 {
     public class BedRoom : PlayRoom
     {
+        private string _title = "HERÄÄMINEN";
 
         Location start = new Location()
         {
-            Title = "HERÄÄMINEN",
             File = "bedroom.txt",
             ChapterIndex = 0,
             FootnoteIndex = 5,
@@ -46,6 +46,9 @@ namespace NeuromaaniTextAdventureGame.Rooms
             CurrentPoint = Command.South,
             ExitRoom = true
         };
+
+        public override string Title { get => _title; set => _title = value; }
+
         public override Location SetUp()
         {
             start.Exits.Add(Command.East, doorWC);
@@ -86,7 +89,7 @@ namespace NeuromaaniTextAdventureGame.Rooms
             }
         }
 
-        public override void ClearLocationDictionaries()
+        public override void ClearLocations()
         {
             start.Exits.Clear();
             bed.Exits.Clear();

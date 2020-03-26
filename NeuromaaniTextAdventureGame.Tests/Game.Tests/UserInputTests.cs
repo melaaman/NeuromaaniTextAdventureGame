@@ -133,13 +133,13 @@ namespace NeuromaaniTextAdventureGame.Tests.Game.Tests
             Assert.AreEqual(true, result);
         }
 
-        [TestCase("Lopeta")]
-        [TestCase(" lopeta ")]
-        public void IsCommandExitGame_CorrectInput_ReturnTrue(string input)
-        {
-            var result = UserInput.IsCommandExitGame(input);
-            Assert.AreEqual(true, result);
-        }
+        //[TestCase("Lopeta")]
+        //[TestCase(" lopeta ")]
+        //public void IsCommandExitGame_CorrectInput_ReturnTrue(string input)
+        //{
+        //    var result = UserInput.IsCommandExitGame(input);
+        //    Assert.AreEqual(true, result);
+        //}
 
         [TestCase("mene pohjoiseen", Command.North)]
         [TestCase("mene Itään", Command.East)]
@@ -157,7 +157,7 @@ namespace NeuromaaniTextAdventureGame.Tests.Game.Tests
         [TestCase(" lopeta ", Command.ExitGame)]
         public void ConvertCommandToEnum_DifferentCommands_ReturnTrue(string command, Command output)
         {
-            var result = UserInput.ConvertCommandToEnum(command);
+            var result = UserInput.ConvertCommand(command);
             Assert.AreEqual(output, result);
         }
 

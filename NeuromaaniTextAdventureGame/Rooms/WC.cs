@@ -6,10 +6,10 @@ namespace NeuromaaniTextAdventureGame.Rooms
 {
     public class WC: PlayRoom
     {
+        private string _title = "PEILIIN TUIJOTTAMINEN MEDITAATIOKEINONA";
 
         Location start = new Location()
         {
-            Title = "PEILIIN TUIJOTTAMINEN MEDITAATIOKEINONA",
             File = "WC.txt",
             ChapterIndex = 0,
             FootnoteIndex = 6,
@@ -52,6 +52,9 @@ namespace NeuromaaniTextAdventureGame.Rooms
             ChapterIndex = 5,
             CurrentPoint = Command.North,
         };
+
+        public override string Title { get => _title; set => _title = value; }
+
         public override Location SetUp()
         {
             start.Exits.Add(Command.East, toiletSeat);
@@ -92,7 +95,7 @@ namespace NeuromaaniTextAdventureGame.Rooms
                     PlayGame.gameOn = false;
                     GeneralUtils.PlayEnter(GeneralUtils.GetTopCursore());
                     PlayGame.gameOn = false;
-                    PlayGame.gameOver = true;
+                    PlayGame.isPlayerDead = true;
                 }
                 if (action == Command.UseItem && bag.IsItemInBag(item) && item == "kivi")
                 {
@@ -116,7 +119,7 @@ namespace NeuromaaniTextAdventureGame.Rooms
             }
         }
 
-        public override void ClearLocationDictionaries()
+        public override void ClearLocations()
         {
             start.Exits.Clear();
             mirror.Exits.Clear();

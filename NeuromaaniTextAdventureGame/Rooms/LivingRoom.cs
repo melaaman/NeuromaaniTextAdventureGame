@@ -5,10 +5,10 @@ namespace NeuromaaniTextAdventureGame.Rooms
 {
     public class LivingRoom : PlayRoom
     {
+        private string _title = "HIRVIÖ HERÄÄ ELOON";
 
         Location start = new Location()
         {
-            Title = "HIRVIÖ HERÄÄ ELOON",
             File = "livingRoom.txt",
             ChapterIndex = 0,
             CurrentPoint = Command.Default
@@ -44,6 +44,9 @@ namespace NeuromaaniTextAdventureGame.Rooms
             CurrentPoint = Command.North,
             ExitRoom = true
         };
+
+        public override string Title { get => _title; set => _title = value; }
+
         public override Location SetUp()
         {
             start.Exits.Add(Command.East, chair);
@@ -81,7 +84,7 @@ namespace NeuromaaniTextAdventureGame.Rooms
                     reader.DisplayTextFromFile("livingRoom.txt", 5, GeneralUtils.GetTopCursore());
                     GeneralUtils.PlayEnter(GeneralUtils.GetTopCursore());
                     PlayGame.gameOn = false;
-                    PlayGame.gameOver = true;
+                    PlayGame.isPlayerDead = true;
                 }
                 else
                 {
@@ -90,7 +93,7 @@ namespace NeuromaaniTextAdventureGame.Rooms
             }
         }
 
-        public override void ClearLocationDictionaries()
+        public override void ClearLocations()
         {
             start.Exits.Clear();
             iron.Exits.Clear();

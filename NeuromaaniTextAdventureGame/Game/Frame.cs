@@ -28,7 +28,6 @@ namespace NeuromaaniTextAdventureGame.Game
         public int GetPoints() => _pointsCurrent;
         private void DrawFrame()
         {
-            // pistepalkki
 
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.SetCursorPosition(0, 0);

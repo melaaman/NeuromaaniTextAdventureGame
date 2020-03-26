@@ -41,7 +41,7 @@ namespace NeuromaaniTextAdventureGame.Game
         public static string[] askHowAreYou = { "mitä kuuluu", "miten menee" };
         public static string[] hitCommands = { "lyö" };
         public static string[] exitRoomCommands = { "astu sisään", "astu ovesta"};
-        public static string[] exitGameCommands = { "lopeta" };
+        //public static string[] exitGameCommands = { "lopeta" };
         public static bool IsCommandMoveNorth(string command) => IsCommandInCommandArray(command, moveNorth);
         public static bool IsCommandMoveEast(string command) => IsCommandInCommandArray(command, moveEast);
         public static bool IsCommandMoveSouth(string command) => IsCommandInCommandArray(command, moveSouth);
@@ -50,7 +50,7 @@ namespace NeuromaaniTextAdventureGame.Game
         public static bool IsCommandGetFootnote(string command) => IsCommandInCommandArray(command, askInformation);
         public static bool IsCommandHit(string command) => IsCommandInCommandArray(command, hitCommands);
         public static bool IsCommandExitRoom(string command) => IsCommandInCommandArray(command, exitRoomCommands);
-        public static bool IsCommandExitGame(string command) => IsCommandInCommandArray(command, exitGameCommands);
+        //public static bool IsCommandExitGame(string command) => IsCommandInCommandArray(command, exitGameCommands);
         public static bool IsCommandTakeItem(string command) => IsCommandTakeOrUseItem(command, "ota");
         public static bool IsCommandUseItem(string command) => IsCommandTakeOrUseItem(command, "käytä");
         public static bool IsCommandSayHello(string command) => IsSayCommand(command, sayHello);
@@ -78,7 +78,7 @@ namespace NeuromaaniTextAdventureGame.Game
         }
 
 
-        public static Command ConvertCommandToEnum(string command)
+        public static Command ConvertCommand(string command)
         {
             if (IsCommandMoveNorth(command))
             {
@@ -145,10 +145,10 @@ namespace NeuromaaniTextAdventureGame.Game
                 return Command.ExitRoom;
             }
 
-            if (IsCommandExitGame(command))
-            {
-                return Command.ExitGame;
-            }
+            //if (IsCommandExitGame(command))
+            //{
+            //    return Command.ExitGame;
+            //}
 
             else
             {
